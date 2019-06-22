@@ -8,10 +8,8 @@ export default class Layout extends Component {
     return (
       <div className={'main-layout col ' + className} style={style}>
         <Head>
-          <title>{title}</title>
-          {process.env.NODE_ENV !== 'production' && (
-            <link rel="stylesheet" type="text/css" href={'/_next/static/css/styles.chunk.css?v=' + Date.now()} />
-          )}
+          <title>{title? title : ''}</title>
+          <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/antd/3.19.0/antd.min.css' />
         </Head>
         <div className="main-content">{children}</div>
       </div>

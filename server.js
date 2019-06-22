@@ -10,12 +10,12 @@ app
   .then(() => {
     const server = express();
 
-    server.get('*', (req, res) => {
-      return handle(req, res);
-    });
-
     server.get('/post/:slug', (req, res) => {
       return app.render(req, res, '/post', { slug: req.params.slug });
+    });
+
+    server.get('*', (req, res) => {
+      return handle(req, res);
     });
 
     server.listen(3000, err => {
