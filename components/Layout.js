@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Head from 'next/head';
+import '../static/css/empty.css'
 
 export default class Layout extends Component {
   render() {
@@ -9,7 +10,6 @@ export default class Layout extends Component {
       <div className={'main-layout col ' + className} style={style}>
         <Head>
           <title>{title? title : ''}</title>
-          <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/antd/3.19.0/antd.min.css' />
         </Head>
         <div className="main-content">{children}</div>
       </div>

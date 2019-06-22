@@ -19,7 +19,9 @@ class MyApp extends App {
     console.log("LOAD __APP>JS")
     return (
       <Container>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </Container>
     );
   }
