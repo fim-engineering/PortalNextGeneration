@@ -16,7 +16,6 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log("LOAD __APP>JS")
     return (
       <Container>
         <Layout>
