@@ -7,5 +7,10 @@
     "env": {
         "GOOGLE_CLIENT_ID": "@google-client-id"
     },
-    "alias": "portal.forumindonesiamuda.org"
+    "alias": "portal.forumindonesiamuda.org",
+    "build": {
+        "env": {
+            "GOOGLE_CLIENT_ID": "@google-client-id"
+        }
+    }
 }
