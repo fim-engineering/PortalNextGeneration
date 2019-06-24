@@ -1,5 +1,7 @@
 import { Carousel } from 'antd';
 import Link from 'next/link';
+import { withRouter } from 'next/router';
+import { useEffect } from 'react';
 import '../static/css/carousel.css';
 
 const CarouselTemplate = () => {
@@ -21,10 +23,19 @@ const CarouselTemplate = () => {
   )
 }
 
-const Index = () => (
-  <div>
-    <CarouselTemplate />
-  </div>
-);
+function Index(props) {
 
-export default Index;
+  useEffect(() => {
+    props.router.prefetch('/about')
+    props.router.prefetch('/faq')
+    props.router.prefetch('/login')
+  }, [])
+
+  return (
+    <div>
+      <CarouselTemplate />
+    </div>
+  )
+}
+
+export default withRouter(Index);
