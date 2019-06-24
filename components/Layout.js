@@ -9,29 +9,6 @@ import ListMenu from './ListMenu';
 const { Header, Footer, Sider, Content } = LayoutAntd;
 const { SubMenu } = Menu;
 
-// const ListMenu = [
-//   {
-//     routeKey: '/',
-//     routeIcon: 'desktop',
-//     routeTitle: 'Home'
-//   },
-//   {
-//     routeKey: '/about',
-//     routeIcon: 'compass',
-//     routeTitle: 'About'
-//   },
-//   {
-//     routeKey: '/faq',
-//     routeIcon: 'question-circle',
-//     routeTitle: 'FAQ'
-//   },
-//   {
-//     routeKey: '/login',
-//     routeIcon: 'login',
-//     routeTitle: 'Login'
-//   }
-// ]
-
 function renderMenus(menu) {
 
   const handleRoute = path => {
