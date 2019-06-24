@@ -24,10 +24,10 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, router } = this.props;
     return (
       <Container>
-        <Layout>
+        <Layout pathName={router.pathname}>
           <Component {...pageProps} />
         </Layout>
       </Container>
