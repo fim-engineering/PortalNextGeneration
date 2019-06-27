@@ -5,6 +5,7 @@ import { Layout as LayoutAntd, Menu, Breadcrumb, Icon, Avatar } from 'antd';
 import Router from 'next/router';
 import MenuItem from 'antd/lib/menu/MenuItem';
 import ListMenu from './ListMenu';
+import { LoginComponent } from '@components/Login';
 
 const { Header, Footer, Sider, Content } = LayoutAntd;
 const { SubMenu } = Menu;
@@ -24,17 +25,12 @@ function renderMenus(menu) {
 }
 
 function Layout(props) {
-  const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState('');
   const { children, pathName } = props;
 
   useEffect(() => {
     setCurrent(pathName)
   }, [pathName])
-
-  const onCollapse = collapsed => {
-    setCollapsed(collapsed)
-  }
 
   const handleClick = e => {
     setCurrent(e.key)

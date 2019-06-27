@@ -40,6 +40,9 @@ module.exports = withCss({
       })
     ]
 
+    config.resolve.alias['@components'] = path.join(__dirname, 'components');
+    config.resolve.alias['@helper'] = path.join(__dirname, 'helper');
+
 
     return config
   },
