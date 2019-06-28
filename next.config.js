@@ -42,6 +42,10 @@ module.exports = withCss({
 
     config.resolve.alias['@components'] = path.join(__dirname, 'components');
     config.resolve.alias['@helper'] = path.join(__dirname, 'helper');
+    config.resolve.alias['@LocalStorage'] = path.join(__dirname, 'helper/LocalStorage');
+    config.resolve.alias['@Cookie'] = path.join(__dirname, 'helper/Cookie');
+    config.resolve.alias['@canUseDOM'] = path.join(__dirname, 'helper/canUseDOM');
+    config.resolve.alias['@constant'] = path.join(__dirname, 'constant');
 
 
     return config

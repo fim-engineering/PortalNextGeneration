@@ -2,11 +2,26 @@ import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
 import { fetch } from '@helper/fetch';
 import { Spin } from 'antd';
+import { set } from '@LocalStorage';
+import { setCookie } from '@Cookie';
+import CONSTANT from '@constant';
+import Router from 'next/router';
+import { notification } from 'antd';
 
 class Login extends React.Component {
 
   state = {
     isLoading: false
+  }
+
+  openNotificationWithIcon = type => {
+    notification[type]({
+      message: 'Berhasil Login'
+    });
+  };
+
+  redirectAfterSuccess = () => {
+    Router.push('/')
   }
 
   onSuccessLogin = async (res) => {
@@ -15,7 +30,7 @@ class Login extends React.Component {
 
     try {
 
-      const data = await fetch({
+      const response = await fetch({
         url: '/auth/login',
         method: 'post',
         data: {
@@ -28,7 +43,10 @@ class Login extends React.Component {
         },
       })
   
-      console.log("data: ", data)
+      console.log("response: ", response)
+      setCookie(CONSTANT.TOKEN_NAME, response.data.token)
+      this.openNotificationWithIcon('success')
+      this.redirectAfterSuccess()
       this.onToggleLoader();
     } catch (error) {
       this.onToggleLoader();

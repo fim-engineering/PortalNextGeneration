@@ -1,6 +1,8 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import Layout from '@components/Layout';
+import { getCookieUniversal } from '@Cookie';
+import CONSTANT from '@constant';
 
 import Router from 'next/router';
 import NProgress from 'nprogress'
@@ -24,19 +26,28 @@ class MyApp extends App {
 
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
+    let cookiesInitial = ''
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
+    
+    if (ctx.req) {
+      cookiesInitial = ctx.req.headers.cookie;
+    } else {
+      cookiesInitial = document.cookie;
+    }
 
-    return { pageProps };
+    const cookieLogin = getCookieUniversal(CONSTANT.TOKEN_NAME, cookiesInitial)
+    return { pageProps, cookieLogin };
   }
 
   render() {
-    const { Component, pageProps, router } = this.props;
+    const { Component, pageProps, router, cookieLogin } = this.props;
+
     return (
       <Container>
-        <Layout pathName={router.pathname}>
+        <Layout pathName={router.pathname} cookieLogin={cookieLogin} >
           <Component {...pageProps} />
         </Layout>
       </Container>
