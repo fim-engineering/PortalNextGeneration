@@ -7,6 +7,7 @@ const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
 module.exports = withCss({
+  target: 'serverless',
   webpack: (config, { isServer }) => {
     if (isServer) {
       const antStyles = /antd\/.*?\/style\/css.*?/
