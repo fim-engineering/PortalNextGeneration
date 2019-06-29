@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Steps, Divider } from 'antd';
+import { fetch } from '@helper/fetch';
 const { Step } = Steps;
 
-function StepBar() {
+function StepBar({ step, setStep }) {
   return (
-    <Steps current={0} onChange={(props) => { console.log("props: ", props) }}>
+    <Steps current={step} onChange={setStep}>
       <Step title="KTP" description="Wording KTP" />
       <Step title="Data Diri" description="Wording Data Diri" />
       <Step title="Pilih Jalur" description="Silahkan Pilih Jalur Anda" />
@@ -13,9 +14,43 @@ function StepBar() {
   )
 }
 
-function ContainerFim21() {
+function ContainerFim21({ cookieLogin }) {
+
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch({
+          url: '/auth/checksession',
+          method: 'post',
+          data: {
+            token: cookieLogin
+          }
+        })
+  
+        const status = (response.data.status || false)
+  
+        if (!status) {
+          setStep(0)
+        }
+  
+        setStep(response.data.data.step)
+  
+      } catch (error) {
+        console.log("error: ", error);
+        
+        setStep(0)
+      }
+    };
+
+    fetchData();
+  }, [step])
+
+
   return (<Fragment>
-    <StepBar />
+    <StepBar step={step} setStep={setStep} />
   </Fragment>)
 }
 

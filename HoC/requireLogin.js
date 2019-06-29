@@ -10,6 +10,10 @@ export default function requireLogin(WrappedComponent) {
   // ...and returns another component...
   return class HoCUser extends Component {
   
+    state = {
+      step: 0
+    }
+
     openNotificationWithIcon = type => {
       notification[type]({
         message: 'Anda harus login terlenih dahulu'
@@ -31,8 +35,10 @@ export default function requireLogin(WrappedComponent) {
         const status = (response.data.status || false)
 
         if (!status) {
-          this.redirectNonLogin();
+          return this.redirectNonLogin();
         }
+
+        this.setState({ step: response.data.data.step })
 
       } catch (error) {
         console.log("error: ", error);
@@ -54,8 +60,9 @@ export default function requireLogin(WrappedComponent) {
     }
   
     render() {
-  
-      return <WrappedComponent {...this.props} />;
+      const { step } = this.state;
+
+      return <WrappedComponent {...this.props} step={step} />;
     }
   
   }
