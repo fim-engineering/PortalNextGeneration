@@ -5,6 +5,11 @@ export default [
     routeTitle: 'Home'
   },
   {
+    routeKey: '/fim21',
+    routeIcon: 'compass',
+    routeTitle: 'FIM 21'
+  },
+  {
     routeKey: '/about',
     routeIcon: 'compass',
     routeTitle: 'About'
