@@ -38,7 +38,7 @@ class MyApp extends App {
       cookiesInitial = document.cookie;
     }
 
-    const cookieLogin = getCookieUniversal(CONSTANT.TOKEN_NAME, cookiesInitial || '')
+    const cookieLogin = getCookieUniversal(CONSTANT.TOKEN_NAME, cookiesInitial)
     return { pageProps, cookieLogin };
   }
 

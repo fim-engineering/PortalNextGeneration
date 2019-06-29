@@ -145,7 +145,7 @@ export const removeCookie = key => {
 
 export const getCookie = key => Cookies.getItem(key);
 
-export const getCookieUniversal = (key, cookies) => {
+export const getCookieUniversal = (key, cookies = '') => {
   if (!key) {
     return null;
   }
