@@ -1,57 +1,79 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { Steps, Divider } from 'antd';
+import React, { Component, Fragment } from 'react';
+
+import { Steps, Divider, notification } from 'antd';
 import { fetch } from '@helper/fetch';
 const { Step } = Steps;
 
-function StepBar({ step, setStep }) {
-  return (
-    <Steps current={step} onChange={setStep}>
-      <Step title="KTP" description="Wording KTP" />
-      <Step title="Data Diri" description="Wording Data Diri" />
-      <Step title="Pilih Jalur" description="Silahkan Pilih Jalur Anda" />
-      <Step title="Isi Formulir Jalur" description="Silahkan Isi Jalur Anda" />
-    </Steps>
-  )
-}
+class ContainerFIM21 extends Component {
 
-function ContainerFim21({ cookieLogin }) {
+  state = {
+    step: 0,
+    stepReal: 0,
+  }
 
-  const [step, setStep] = useState(0);
+  openNotificationWithIcon = (type, message) => {
+    notification[type]({
+      message
+    });
+  };
 
-  useEffect(() => {
+  onChangeStep = (index) => {
+    const { stepReal } = this.state;
 
-    const fetchData = async () => {
-      try {
-        const response = await fetch({
-          url: '/auth/checksession',
-          method: 'post',
-          data: {
-            token: cookieLogin
-          }
-        })
-  
-        const status = (response.data.status || false)
-  
-        if (!status) {
-          setStep(0)
+    if (index < stepReal) {
+      this.setState({ step: index + 1 })
+    } else {
+      this.openNotificationWithIcon('error', 'Anda Tidak boleh')
+    }
+
+  }
+
+  renderStepBar = () => {
+    const { step } = this.state;
+
+    return (
+      <Steps current={step - 1} onChange={this.onChangeStep}>
+        <Step title="KTP" description="Wording KTP" />
+        <Step title="Data Diri" description="Wording Data Diri" />
+        <Step title="Pilih Jalur" description="Silahkan Pilih Jalur Anda" />
+        <Step title="Isi Formulir Jalur" description="Silahkan Isi Jalur Anda" />
+      </Steps>
+    )
+  }
+
+  componentDidMount = async () => {
+    const { cookieLogin } = this.props;
+
+    try {
+      const response = await fetch({
+        url: '/auth/checksession',
+        method: 'post',
+        data: {
+          token: cookieLogin
         }
-  
-        setStep(response.data.data.step)
-  
-      } catch (error) {
-        console.log("error: ", error);
-        
-        setStep(0)
+      })
+
+      const status = (response.data.status || false)
+
+      if (!status) {
+        this.setState({ step: 0 })
       }
-    };
 
-    fetchData();
-  }, [step])
+      this.setState({ step: response.data.data.step, stepReal: response.data.data.step })
 
+    } catch (error) {
+      console.log("error: ", error);
+      
+      this.setState({ step: 0 })
+    }
 
-  return (<Fragment>
-    <StepBar step={step} setStep={setStep} />
-  </Fragment>)
+  }
+
+  render() {
+    return (<Fragment>
+      {this.renderStepBar()}
+    </Fragment>)
+  }
 }
 
-export default ContainerFim21;
+export default ContainerFIM21;
