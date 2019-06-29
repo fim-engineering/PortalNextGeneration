@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 
 import { Steps, Divider, notification } from 'antd';
 import { fetch } from '@helper/fetch';
+import KTP from './KTP';
 const { Step } = Steps;
 
 class ContainerFIM21 extends Component {
@@ -72,6 +73,7 @@ class ContainerFIM21 extends Component {
   render() {
     return (<Fragment>
       {this.renderStepBar()}
+      <KTP />
     </Fragment>)
   }
 }
