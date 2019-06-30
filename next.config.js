@@ -5,6 +5,7 @@ const withCss = require('@zeit/next-css')
 
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 module.exports = withCss({
   target: 'serverless',
@@ -49,6 +50,12 @@ module.exports = withCss({
     config.resolve.alias['@canUseDOM'] = path.join(__dirname, 'helper/canUseDOM');
     config.resolve.alias['@constant'] = path.join(__dirname, 'constant');
 
+    config.plugins.push(
+      new FilterWarningsPlugin({ 
+        // https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250#issuecomment-415345126
+        exclude: /mini-css-extract-plugin[^]*Conflicting order between:/, 
+      })
+    );
 
     return config
   },

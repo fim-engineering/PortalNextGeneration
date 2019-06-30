@@ -1,5 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { Input, Tooltip, Icon, Upload, Modal, message, Button, Divider } from 'antd';
+import {
+  Button,
+  Divider,
+  Icon,
+  Input,
+  message,
+  Modal,
+  Tooltip,
+  Upload,
+} from 'antd';
 import { fetch } from '@helper/fetch';
 import { getCookie } from '@Cookie';
 import CONSTANT from '@constant';

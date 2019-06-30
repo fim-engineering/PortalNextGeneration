@@ -1,6 +1,12 @@
 import React, { Component, Fragment } from 'react';
 
-import { Steps, Divider, notification, Skeleton, Empty } from 'antd';
+import {
+  Divider,
+  Empty,
+  notification,
+  Skeleton,
+  Steps,
+} from 'antd';
 import { fetch } from '@helper/fetch';
 import KTP from './KTP';
 const { Step } = Steps;

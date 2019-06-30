@@ -1,7 +1,13 @@
 import React, { Component, useState, useEffect } from 'react';
 import Head from 'next/head';
 import '../static/css/empty.css'
-import { Layout as LayoutAntd, Menu, Breadcrumb, Icon, Avatar } from 'antd';
+import {
+  Avatar,
+  Breadcrumb,
+  Icon,
+  Layout as LayoutAntd,
+  Menu,
+} from 'antd';
 import Router from 'next/router';
 import MenuItem from 'antd/lib/menu/MenuItem';
 import ListMenu from './ListMenu';
