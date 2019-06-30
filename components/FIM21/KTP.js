@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Input, Tooltip, Icon, Upload, Modal, message, Button } from 'antd';
+import { Input, Tooltip, Icon, Upload, Modal, message, Button, Divider } from 'antd';
 import { fetch } from '@helper/fetch';
 import { getCookie } from '@Cookie';
 import CONSTANT from '@constant';
@@ -51,17 +51,22 @@ class KTP extends Component {
   }
 
   renderInput = (currentValue, onChangeFn) => {
-    return <Input
-      value={currentValue}
-      onChange={onChangeFn}
-      placeholder="Enter your username"
-      prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-      suffix={
-        <Tooltip title="Extra information">
-          <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
-        </Tooltip>
-      }
-    />
+    return (<Fragment>
+      <p>
+        Mohon masukkan dengan nomor KTP anda yang asli. Hal ini berguna untuk Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.
+      </p>
+      <Input
+        value={currentValue}
+        onChange={onChangeFn}
+        placeholder="Masukkan Nomor KTP Anda"
+        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        suffix={
+          <Tooltip title="Nomor KTP">
+            <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
+          </Tooltip>
+        }
+      />
+    </Fragment>)
   }
 
   renderUpload = () => {
@@ -75,7 +80,10 @@ class KTP extends Component {
       </div>
     );
 
-    return (
+    return (<Fragment>
+      <p>
+        Mohon Upload Foto KTP Asli anda. Hal ini berguna untuk Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.
+      </p>
       <Upload
         listType="picture-card"
         className="avatar-uploader"
@@ -93,7 +101,8 @@ class KTP extends Component {
       >
         {urlKtp ? <img style={{ maxWidth: '100%', maxHeight: '100%' }} src={urlKtp} alt="avatar" /> : uploadButton}
       </Upload>
-    )
+    </Fragment>)
+
   }
 
   onToggleLoaderButton = () => {
@@ -178,8 +187,9 @@ class KTP extends Component {
     const { noKtp } = this.state; 
 
     return (<Fragment>
-      <h1>Silahkan Isi KTP Anda</h1>
+      <Divider>Nomor KTP</Divider>
       {this.renderInput(noKtp, (e) => {this.changeState('noKtp', e.target.value)})}
+      <Divider>Upload Foto KTP</Divider>
       {this.renderUpload()}
       <Button {...this.buttonSubmitProps}>
         Submit
