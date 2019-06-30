@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import { Steps, Divider, notification, Skeleton } from 'antd';
+import { Steps, Divider, notification, Skeleton, Empty } from 'antd';
 import { fetch } from '@helper/fetch';
 import KTP from './KTP';
 const { Step } = Steps;
@@ -75,9 +75,13 @@ class ContainerFIM21 extends Component {
 
     if (step === -1) {
       return <Skeleton active />
+    } else if (step === 1) {
+      return <KTP />
+    } else if (step === 2) {
+      return <h1>step 2</h1>
     }
 
-    return <KTP />
+    return <Empty />
   }
 
   render() {
