@@ -4,23 +4,14 @@ import { fetch } from '@helper/fetch';
 import { getCookie } from '@Cookie';
 import CONSTANT from '@constant';
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
 function beforeUpload(file) {
   const isJPG = file.type === 'image/jpeg';
   if (!isJPG) {
     message.error('You can only upload JPG file!');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
+  const isLt2M = file.size / 1024 / 1024 < 1;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    message.error('Image must smaller than 1MB!');
   }
   return isJPG && isLt2M;
 }
@@ -29,8 +20,9 @@ class KTP extends Component {
   
   state = {
     noKtp: '',
-    urlKtp: 'http://xxx.sss.com/img/1.jpg',
-    loading: false
+    urlKtp: '',
+    loading: false,
+    loadingButton: false,
   }
 
   handleChange = info => {
@@ -38,14 +30,17 @@ class KTP extends Component {
       this.setState({ loading: true });
       return;
     }
+    if (info.file.status === 'error') {
+      message.error('Gagal Upload');
+      this.setState({ loading: false });
+      return;
+    }
     if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
+      this.setState({
+        urlKtp: info.file.response.secure_url,
+        loading: false,
+      })
+      message.success('Sukses Upload');
     }
   };
 
@@ -69,7 +64,7 @@ class KTP extends Component {
 
   renderUpload = () => {
 
-    const { imageUrl } = this.state;
+    const { urlKtp } = this.state;
 
     const uploadButton = (
       <div>
@@ -80,21 +75,35 @@ class KTP extends Component {
 
     return (
       <Upload
-        name="avatar"
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        action="https://api.cloudinary.com/v1_1/fim-indonesia/image/upload"
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
+        data={(file) => {
+          return {
+            upload_preset: 'ID_card',
+            file,
+            tags: 'browser_upload'
+          }
+        }}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
+        {urlKtp ? <img style={{ maxWidth: '100%', maxHeight: '100%' }} src={urlKtp} alt="avatar" /> : uploadButton}
       </Upload>
     )
   }
 
+  onToggleLoaderButton = () => {
+    this.setState(prevState => ({
+      loadingButton: !prevState.loadingButton
+    }))
+  }
+
   handleSubmit = async () => {
     const { noKtp, urlKtp } = this.state;
+
+    this.onToggleLoaderButton()
 
     try {
 
@@ -111,28 +120,54 @@ class KTP extends Component {
           'Authorization': `Bearer ${getCookie(tokenName)}`
         },
       })
-  
-      console.log("response: ", response)
-      // setCookie(CONSTANT.TOKEN_NAME, response.data.token)
-      // this.openNotificationWithIcon('success')
-      // this.redirectAfterSuccess()
-      // this.onToggleLoader();
+
+      const { data, statusText } = response
+
+      if (data.status) {
+        message.success(data.message);
+      } else {
+        message.error(data.message);
+      }
+
+      this.onToggleLoaderButton()
+
     } catch (error) {
-      // this.onToggleLoader();
+      message.error("Gagal");
       console.log("error: ", error)
+      this.onToggleLoaderButton()
     }
 
   }
 
-  render() {
+  get isDisableButton() {
     const { noKtp, urlKtp } = this.state; 
+
+    return Boolean(noKtp) && Boolean(urlKtp)
+  }
+
+  get buttonSubmitProps() {
+    const { loadingButton } = this.state;
+
+    return {
+      ...!this.isDisableButton && {
+        disabled: true
+      },
+      loading: loadingButton,
+      onClick: this.handleSubmit,
+      type: "primary",
+      size: 'large'
+    }
+  }
+
+  render() {
+    const { noKtp } = this.state; 
 
     return (<Fragment>
       <h1>Silahkan Isi KTP Anda</h1>
       {this.renderInput(noKtp, (e) => {this.changeState('noKtp', e.target.value)})}
       {this.renderUpload()}
-      <Button onClick={this.handleSubmit} type="primary" size={'large'}>
-        Primary
+      <Button {...this.buttonSubmitProps}>
+        Submit
       </Button>
     </Fragment>)
   }
