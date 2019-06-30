@@ -28,9 +28,10 @@ class ContainerFIM21 extends Component {
     const { stepReal } = this.state;
 
     if (index < stepReal) {
-      this.setState({ step: index + 1 })
+      // this.setState({ step: index + 1 })
+      this.openNotificationWithIcon('error', 'Anda Tidak bisa mengubah data kembali')
     } else {
-      this.openNotificationWithIcon('error', 'Anda Tidak boleh')
+      this.openNotificationWithIcon('error', 'Anda Tidak boleh melompat tahapan')
     }
 
   }
