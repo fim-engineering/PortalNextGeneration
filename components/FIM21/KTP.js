@@ -4,6 +4,8 @@ import { fetch } from '@helper/fetch';
 import { getCookie } from '@Cookie';
 import CONSTANT from '@constant';
 
+const { confirm } = Modal;
+
 function beforeUpload(file) {
   const isJPG = file.type === 'image/jpeg';
   if (!isJPG) {
@@ -139,6 +141,19 @@ class KTP extends Component {
 
   }
 
+  showConfirm = () => {
+    confirm({
+      title: 'Kamu Yakin akan mengirimkan data ini ?',
+      content: 'Sekali anda mensubmit, tidak akan bisa diubah!',
+      onOk: () => {
+        this.handleSubmit()
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+
   get isDisableButton() {
     const { noKtp, urlKtp } = this.state; 
 
@@ -153,7 +168,7 @@ class KTP extends Component {
         disabled: true
       },
       loading: loadingButton,
-      onClick: this.handleSubmit,
+      onClick: this.showConfirm,
       type: "primary",
       size: 'large'
     }
