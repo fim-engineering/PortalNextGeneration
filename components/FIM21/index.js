@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import { Steps, Divider, notification } from 'antd';
+import { Steps, Divider, notification, Skeleton } from 'antd';
 import { fetch } from '@helper/fetch';
 import KTP from './KTP';
 const { Step } = Steps;
@@ -8,8 +8,8 @@ const { Step } = Steps;
 class ContainerFIM21 extends Component {
 
   state = {
-    step: 0,
-    stepReal: 0,
+    step: -1,
+    stepReal: -1,
   }
 
   openNotificationWithIcon = (type, message) => {
@@ -70,10 +70,22 @@ class ContainerFIM21 extends Component {
 
   }
 
+  renderContent = () => {
+    const { step } = this.state;
+
+    if (step === -1) {
+      return <Skeleton active />
+    }
+
+    return <KTP />
+  }
+
   render() {
+    const { step } = this.state;
+
     return (<Fragment>
       {this.renderStepBar()}
-      <KTP />
+      {this.renderContent()}
     </Fragment>)
   }
 }
