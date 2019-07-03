@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import { fetch } from '@helper/fetch';
 import KTP from './KTP';
+import DataDiri from './DataDiri';
 const { Step } = Steps;
 
 class ContainerFIM21 extends Component {
@@ -79,13 +80,16 @@ class ContainerFIM21 extends Component {
 
   renderContent = () => {
     const { step } = this.state;
+    const { dataUser } = this.props;
+
+    console.log("dataUser: ", dataUser)
 
     if (step === -1) {
       return <Skeleton active />
     } else if (step === 1) {
       return <KTP />
     } else if (step === 2) {
-      return <h1>step 2</h1>
+      return <DataDiri />
     }
 
     return <Empty />
