@@ -26,6 +26,19 @@ class RegistrationForm extends React.Component {
     autoCompleteResult: []
   };
 
+  componentDidMount = () => {
+    const { form, dataUser: { Identity } } = this.props;
+
+    if (Identity) {
+      form.setFieldsValue({
+        name: Identity.name,
+        address: Identity.address,
+        phone: Identity.phone
+      })
+    }
+
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
