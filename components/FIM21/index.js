@@ -50,7 +50,7 @@ class ContainerFIM21 extends Component {
     )
   }
 
-  componentDidMount = async () => {
+  fetchSession = async () => {
     const { cookieLogin } = this.props;
 
     try {
@@ -75,21 +75,26 @@ class ContainerFIM21 extends Component {
       
       this.setState({ step: 0 })
     }
+  }
+
+  componentDidMount = async () => {
+
+    this.fetchSession();
 
   }
 
   renderContent = () => {
     const { step } = this.state;
-    const { dataUser } = this.props;
+    const { dataUser, cookieLogin } = this.props;
 
     console.log("dataUser: ", dataUser)
 
     if (step === -1) {
       return <Skeleton active />
     } else if (step === 1) {
-      return <KTP />
+      return <KTP refetchStep={this.fetchSession} />
     } else if (step === 2) {
-      return <DataDiri />
+      return <DataDiri refetchStep={this.fetchSession} cookieLogin={cookieLogin} dataUser={dataUser} />
     }
 
     return <Empty />

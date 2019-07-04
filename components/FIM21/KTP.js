@@ -122,6 +122,7 @@ class KTP extends Component {
 
   handleSubmit = async () => {
     const { noKtp, urlKtp } = this.state;
+    const { refetchStep } = this.props;
 
     this.onToggleLoaderButton()
 
@@ -145,6 +146,7 @@ class KTP extends Component {
 
       if (data.status) {
         message.success(data.message);
+        refetchStep();
       } else {
         message.error(data.message);
       }
