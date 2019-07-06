@@ -12,6 +12,7 @@ import {
   Button,
   AutoComplete,
   message,
+  Radio,
 } from "antd";
 import { fetch } from '@helper/fetch';
 
@@ -33,7 +34,8 @@ class RegistrationForm extends React.Component {
       form.setFieldsValue({
         name: Identity.name,
         address: Identity.address,
-        phone: Identity.phone
+        phone: Identity.phone,
+        religion: Identity.religion
       })
     }
 
@@ -50,7 +52,7 @@ class RegistrationForm extends React.Component {
 
   handleOnSubmit = async (values) => {
     const { cookieLogin, refetchStep } = this.props;
-    const { address, name, phone, prefix } = values
+    const { address, name, phone, prefix, religion } = values
     console.log("values: ", values)
 
     const response = await fetch({
@@ -62,7 +64,8 @@ class RegistrationForm extends React.Component {
       data: {
         name: name,
         address: address,
-        phone: `${prefix}${phone}`
+        phone: `${prefix}${phone}`,
+        religion: religion,
       }
     })
 
@@ -176,6 +179,22 @@ class RegistrationForm extends React.Component {
               { required: true, message: "Please input your phone number!" }
             ]
           })(<Input addonBefore={prefixSelector} style={{ width: "100%" }} />)}
+        </Form.Item>
+        <Form.Item label="Agama">
+          {getFieldDecorator("religion", {
+            rules: [
+              { required: true, message: "Please select your religion" }
+            ]
+          })(
+            <Select>
+              <Option value="Islam">Islam</Option>
+              <Option value="Kristen Protestan">Kristen Protestan</Option>
+              <Option value="Katolik">Katolik</Option>
+              <Option value="Hindu">Hindu</Option>
+              <Option value="Buddha">Buddha</Option>
+              <Option value="Kong Hu Cu">Kong Hu Cu</Option>
+            </Select>
+          )}
         </Form.Item>
         {/* <Form.Item label="Website">
           {getFieldDecorator("website", {
