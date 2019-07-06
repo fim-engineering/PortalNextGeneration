@@ -14,6 +14,7 @@ import {
   message,
   Radio,
   DatePicker,
+  Upload,
 } from "antd";
 import { fetch } from '@helper/fetch';
 import moment from 'moment';
@@ -22,17 +23,30 @@ const { Option } = Select;
 const { TextArea } = Input;
 const AutoCompleteOption = AutoComplete.Option;
 
+function beforeUpload(file) {
+  const isJPG = file.type === 'image/jpeg';
+  if (!isJPG) {
+    message.error('You can only upload JPG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 1;
+  if (!isLt2M) {
+    message.error('Image must smaller than 1MB!');
+  }
+  return isJPG && isLt2M;
+}
 
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: []
+    autoCompleteResult: [],
+    loading: false,
   };
 
   componentDidMount = () => {
     const { form, dataUser: { Identity } } = this.props;
 
     if (Identity) {
+      this.setState({ urlKtp: Identity.photoUrl })
       form.setFieldsValue({
         name: Identity.name,
         address: Identity.address,
@@ -55,6 +69,7 @@ class RegistrationForm extends React.Component {
 
   handleOnSubmit = async (values) => {
     const { cookieLogin, refetchStep } = this.props;
+    const { urlKtp } = this.state;
     const { address, name, phone, prefix, religion, bornDate } = values
     console.log("values: ", values)
 
@@ -65,6 +80,7 @@ class RegistrationForm extends React.Component {
         'Authorization': `Bearer ${cookieLogin}`
       },
       data: {
+        photoUrl: urlKtp,
         name: name,
         address: address,
         phone: `${prefix}${phone}`,
@@ -119,6 +135,62 @@ class RegistrationForm extends React.Component {
     }
     this.setState({ autoCompleteResult });
   };
+
+  handleChange = info => {
+    const { form } = this.props
+
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'error') {
+      message.error('Gagal Upload');
+      this.setState({ loading: false });
+      return;
+    }
+    if (info.file.status === 'done') {
+      form.setFieldsValue({
+        profPic: info.file.response.secure_url
+      })
+
+      this.setState({
+        urlKtp: info.file.response.secure_url,
+        loading: false,
+      })
+      message.success('Sukses Upload');
+    }
+  };
+
+  renderUpload = () => {
+    const { urlKtp, loading } = this.state;
+
+    const uploadButton = (
+      <div>
+        <Icon type={loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+
+    return (
+      <Upload
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        action="https://api.cloudinary.com/v1_1/fim-indonesia/image/upload"
+        beforeUpload={beforeUpload}
+        onChange={this.handleChange}
+        data={(file) => {
+          return {
+            upload_preset: 'profile_photo',
+            file,
+            tags: 'browser_upload'
+          }
+        }}
+      >
+        {(urlKtp && !loading) ? <img style={{ maxWidth: '100%', maxHeight: '100%' }} src={urlKtp} alt="avatar" /> : uploadButton}
+      </Upload>
+    )
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -206,6 +278,13 @@ class RegistrationForm extends React.Component {
               <Option value="Kong Hu Cu">Kong Hu Cu</Option>
             </Select>
           )}
+        </Form.Item>
+        <Form.Item label="Foto Pribadi">
+          {getFieldDecorator("profPic", {
+            rules: [
+              { required: true, message: "Please set your photo" }
+            ]
+          })(this.renderUpload())}
         </Form.Item>
         {/* <Form.Item label="Website">
           {getFieldDecorator("website", {
