@@ -13,8 +13,10 @@ import {
   AutoComplete,
   message,
   Radio,
+  DatePicker,
 } from "antd";
 import { fetch } from '@helper/fetch';
+import moment from 'moment';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -35,7 +37,8 @@ class RegistrationForm extends React.Component {
         name: Identity.name,
         address: Identity.address,
         phone: Identity.phone,
-        religion: Identity.religion
+        religion: Identity.religion,
+        bornDate: moment(Identity.bornDate, 'YYYY/MM/DD')
       })
     }
 
@@ -52,7 +55,7 @@ class RegistrationForm extends React.Component {
 
   handleOnSubmit = async (values) => {
     const { cookieLogin, refetchStep } = this.props;
-    const { address, name, phone, prefix, religion } = values
+    const { address, name, phone, prefix, religion, bornDate } = values
     console.log("values: ", values)
 
     const response = await fetch({
@@ -66,6 +69,7 @@ class RegistrationForm extends React.Component {
         address: address,
         phone: `${prefix}${phone}`,
         religion: religion,
+        bornDate: bornDate,
       }
     })
 
@@ -179,6 +183,13 @@ class RegistrationForm extends React.Component {
               { required: true, message: "Please input your phone number!" }
             ]
           })(<Input addonBefore={prefixSelector} style={{ width: "100%" }} />)}
+        </Form.Item>
+        <Form.Item label="Tanggal Lahir">
+          {getFieldDecorator("bornDate", {
+            rules: [
+              { required: true, message: "Please input your Born Date!" }
+            ]
+          })(<DatePicker />)}
         </Form.Item>
         <Form.Item label="Agama">
           {getFieldDecorator("religion", {
