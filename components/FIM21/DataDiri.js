@@ -127,7 +127,7 @@ class RegistrationForm extends React.Component {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 2 }
+        sm: { span: 3 }
       },
       wrapperCol: {
         xs: { span: 24 },
@@ -222,7 +222,7 @@ class RegistrationForm extends React.Component {
           </Form.Item> */}
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Register
+            Submit
           </Button>
         </Form.Item>
       </Form>
