@@ -6,11 +6,9 @@ import { getCookieUniversal } from '@Cookie';
 import CONSTANT from '@constant';
 
 import Router from 'next/router';
-import NProgress from 'nprogress'
 
 Router.events.on('routeChangeStart', url => {
   console.log(`Loading: ${url}`)
-  NProgress.start()
 })
 Router.events.on('routeChangeComplete', () => {
   if (process.env.NODE_ENV !== 'production') {
@@ -19,9 +17,10 @@ Router.events.on('routeChangeComplete', () => {
     els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
   }
 
-  NProgress.done()
 })
-Router.events.on('routeChangeError', () => NProgress.done())
+Router.events.on('routeChangeError', (err) => {
+  console.log("routeChangeError: ", err)
+})
 
 class MyApp extends App {
 
