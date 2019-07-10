@@ -7,8 +7,6 @@ function isEmptyObject(obj) {
 }
 
 function Content({loading, tunnels, setTunnel}) {
-  console.log("tunnels: ", tunnels)
-  console.log("loading: ", loading)
   if (loading) {
     return <Skeleton active />
   } else if (!tunnels || tunnels.length === 0) {
@@ -43,6 +41,7 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
   const [tunnels, setTunnels] = useState([])
   const [tunnel, setTunnel] = useState({})
 
+
   useEffect(() => {
     const fetchTunnel = async () => {
       setLoading(true)
@@ -62,12 +61,18 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
           setTunnels(null)
           setLoading(false)
         } else {
-          setTunnels(response.data.data || [])
+          const responseData = response.data.data || []
+          setTunnels(responseData)
           setLoading(false)
+
+          if (dataUser.tunnelId) {
+            const findData = responseData.find(item => item.id === dataUser.tunnelId)
+            findData && setTunnel(findData)
+          }
+
         }
 
       } catch (error) {
-        console.log("error: ", error);
         message.error("Server Error")
         setTunnels(null)
         setLoading(false)
@@ -77,17 +82,41 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
     fetchTunnel();
   }, [])
 
-  const submitEvent = () => {
+  const submitEvent = async () => {
     if (isEmptyObject(tunnel)) {
       message.error("Pilih Jalur dahulu!")
     } else {
       setLoadingButton(true)
 
-      //DO Submit Choose Tunnel
-      
-      setTimeout(() => {
+      try {
+        const response = await fetch({
+          url: '/auth/save-tunnel',
+          method: 'post',
+          headers: {
+            'Authorization': `Bearer ${cookieLogin}`
+          },
+          data: {
+            tunnelId: tunnel.id
+          }
+        })
+  
+        const status = (response.data.status || false)
+
+        if (!status) {
+          message.error("Server Error")
+          setLoadingButton(false)
+        } else {
+          message.success("Sukses")
+          refetchStep()
+          setLoadingButton(false)
+        }
+      } catch (error) {
         setLoadingButton(false)
-      }, 3000)
+      }
+      
+      // setTimeout(() => {
+      //   setLoadingButton(false)
+      // }, 3000)
     }
   }
 
