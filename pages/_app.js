@@ -1,6 +1,7 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import Layout from '@components/Layout';
+import withGA from "next-ga";
 import { getCookieUniversal } from '@Cookie';
 import CONSTANT from '@constant';
 
@@ -55,4 +56,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp;
+export default withGA("UA-48323794-5", Router)(MyApp);
