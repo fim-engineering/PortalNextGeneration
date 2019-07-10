@@ -80,7 +80,7 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
     }
 
     fetchTunnel();
-  }, [])
+  }, [dataUser])
 
   const submitEvent = async () => {
     if (isEmptyObject(tunnel)) {
@@ -107,7 +107,7 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
           setLoadingButton(false)
         } else {
           message.success("Sukses")
-          refetchStep()
+          refetchStep();
           setLoadingButton(false)
         }
       } catch (error) {

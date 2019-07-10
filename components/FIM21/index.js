@@ -18,6 +18,7 @@ class ContainerFIM21 extends Component {
   state = {
     step: -1,
     stepReal: -1,
+    dataUser: {}
   }
 
   openNotificationWithIcon = (type, message) => {
@@ -79,28 +80,65 @@ class ContainerFIM21 extends Component {
     }
   }
 
+  fetchDataProfile = async () => {
+    const { cookieLogin } = this.props;
+
+    try {
+      const response = await fetch({
+        url: '/auth/get-profile',
+        method: 'post',
+        headers: {
+          'Authorization': `Bearer ${cookieLogin}`
+        },
+      })
+  
+      const status = (response.data.status || false)
+  
+      if (!status) {
+        this.setState({
+          dataUser: {}
+        })
+      }
+
+      this.setState({
+        dataUser: response.data.data
+      })
+  
+    } catch (error) {
+      console.log("error: ", error)
+      this.setState({
+        dataUser: {}
+      })
+    }
+  }
+
   componentDidMount = async () => {
 
-    this.fetchSession();
+    this.refetchData()
 
   }
 
+  refetchData = () => {
+    this.fetchSession();
+    this.fetchDataProfile();
+  }
+
   renderContent = () => {
-    const { step } = this.state;
-    const { dataUser, cookieLogin } = this.props;
+    const { step, dataUser } = this.state;
+    const { cookieLogin } = this.props;
 
     console.log("step: ", step)
 
     if (step === -1) {
       return <Skeleton active />
     } else if (step === 0) {
-      return <KTP refetchStep={this.fetchSession} />
+      return <KTP refetchStep={this.refetchData} />
     } else if (step === 1) {
-      return <KTP refetchStep={this.fetchSession} />
+      return <KTP refetchStep={this.refetchData} />
     } else if (step === 2) {
-      return <DataDiri refetchStep={this.fetchSession} cookieLogin={cookieLogin} dataUser={dataUser} />
+      return <DataDiri refetchStep={this.refetchData} cookieLogin={cookieLogin} dataUser={dataUser} />
     } else if (step === 3) {
-      return <ChooseTunnel refetchStep={this.fetchSession} cookieLogin={cookieLogin} dataUser={dataUser} />
+      return <ChooseTunnel refetchStep={this.refetchData} cookieLogin={cookieLogin} dataUser={dataUser} />
     }
 
     return <Empty />
