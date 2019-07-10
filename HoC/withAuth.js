@@ -2,6 +2,7 @@ import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import CONSTANT from '@constant';
 import { fetch } from '@helper/fetch';
+import { logout } from '@helper/googleSession';
 import { removeCookie } from '@helper/Cookie';
 import { notification } from 'antd';
 
@@ -14,6 +15,9 @@ const openNotificationWithIcon = type => {
 const redirectForbidden = () => {
   openNotificationWithIcon('error')
   removeCookie(CONSTANT.TOKEN_NAME)
+  logout({
+    onLogoutSuccess: () => {}
+  })
   Router.push('/login')
 }
 
