@@ -8,9 +8,7 @@ import {
   Steps,
 } from 'antd';
 import { fetch } from '@helper/fetch';
-import KTP from './KTP';
-import DataDiri from './DataDiri';
-import ChooseTunnel from './ChooseTunnel';
+import { KTP, DataDiri, ChooseTunnel } from './Dynamic';
 const { Step } = Steps;
 
 class ContainerFIM21 extends Component {
