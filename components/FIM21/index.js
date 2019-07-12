@@ -16,7 +16,12 @@ class ContainerFIM21 extends Component {
   state = {
     step: -1,
     stepReal: -1,
-    dataUser: {}
+    dataUser: {},
+    isLoading: false,
+  }
+
+  toggleLoading = (value) => {
+    this.setState({ isLoading: value })
   }
 
   openNotificationWithIcon = (type, message) => {
@@ -82,6 +87,8 @@ class ContainerFIM21 extends Component {
   fetchDataProfile = async () => {
     const { cookieLogin } = this.props;
 
+    this.toggleLoading(true)
+
     try {
       const response = await fetch({
         url: '/auth/get-profile',
@@ -103,6 +110,8 @@ class ContainerFIM21 extends Component {
       this.setState({
         dataUser: response.data.data
       })
+
+      this.toggleLoading(false)
   
     } catch (error) {
       console.log("error: ", error)
@@ -110,6 +119,8 @@ class ContainerFIM21 extends Component {
         dataUser: {},
         step: -2
       })
+
+      this.toggleLoading(false)
     }
   }
 
@@ -125,10 +136,14 @@ class ContainerFIM21 extends Component {
   }
 
   renderContent = () => {
-    const { step, dataUser } = this.state;
+    const { step, dataUser, isLoading } = this.state;
     const { cookieLogin } = this.props;
 
     console.log("step: ", step)
+
+    if (isLoading) {
+      return <Skeleton active />
+    }
 
     if (step === -1) {
       return <Skeleton active />
