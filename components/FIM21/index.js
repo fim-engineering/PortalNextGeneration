@@ -8,7 +8,7 @@ import {
   Steps,
 } from 'antd';
 import { fetch } from '@helper/fetch';
-import { KTP, DataDiri, ChooseTunnel } from './Dynamic';
+import { KTP, DataDiri, ChooseTunnel, Question } from './Dynamic';
 const { Step } = Steps;
 
 class ContainerFIM21 extends Component {
@@ -66,15 +66,16 @@ class ContainerFIM21 extends Component {
       const status = (response.data.status || false)
 
       if (!status) {
-        this.setState({ step: 0 })
+        this.setState({ step: -2 })
       }
 
-      this.setState({ step: response.data.data.step, stepReal: response.data.data.step })
+      // this.setState({ step: response.data.data.step, stepReal: response.data.data.step })
+      this.setState({ step: 4, stepReal: 4 })
 
     } catch (error) {
       console.log("error: ", error);
       
-      this.setState({ step: 0 })
+      this.setState({ step: -2 })
     }
   }
 
@@ -94,7 +95,8 @@ class ContainerFIM21 extends Component {
   
       if (!status) {
         this.setState({
-          dataUser: {}
+          dataUser: {},
+          step: -2
         })
       }
 
@@ -105,7 +107,8 @@ class ContainerFIM21 extends Component {
     } catch (error) {
       console.log("error: ", error)
       this.setState({
-        dataUser: {}
+        dataUser: {},
+        step: -2
       })
     }
   }
@@ -117,8 +120,8 @@ class ContainerFIM21 extends Component {
   }
 
   refetchData = () => {
-    this.fetchSession();
     this.fetchDataProfile();
+    this.fetchSession();
   }
 
   renderContent = () => {
@@ -137,6 +140,8 @@ class ContainerFIM21 extends Component {
       return <DataDiri refetchStep={this.refetchData} cookieLogin={cookieLogin} dataUser={dataUser} />
     } else if (step === 3) {
       return <ChooseTunnel refetchStep={this.refetchData} cookieLogin={cookieLogin} dataUser={dataUser} />
+    } else if (step === 4) {
+      return <Question refetchStep={this.refetchData} cookieLogin={cookieLogin} dataUser={dataUser} />
     }
 
     return <Empty />
