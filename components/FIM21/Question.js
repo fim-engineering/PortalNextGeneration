@@ -21,6 +21,7 @@ class Question extends Component {
   }
 
   state = {
+    answers: null,
     isLoadButton: false,
     isLoadQ: false,
     dataQuestion: [],
@@ -35,7 +36,7 @@ class Question extends Component {
   }
 
   componentDidUpdate = () => {
-    this.saveAnswer()
+    this.state.answers && this.saveAnswer()
   }
 
   toggleLoadQ = () => {
@@ -207,7 +208,7 @@ class Question extends Component {
         data: {
           answers: answers,
           tunnelId: dataUser.tunnelId,
-          ktpNumber: dataUser.Identity.ktp-Number,
+          ktpNumber: dataUser.Identity.ktpNumber,
         }
       })
 
