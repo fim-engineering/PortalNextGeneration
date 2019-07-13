@@ -66,10 +66,12 @@ class Question extends Component {
 
         const newAnswer = answers.map(answer => {
           const findingData = newData.find(data => data.questionId === answer.questionId)
+          
           if (findingData) {
             return {
               ...answer,
-              ...findingData
+              ...findingData,
+              formCount:findingData.answer.length
             }
           } else {
             return {
@@ -77,9 +79,6 @@ class Question extends Component {
             }
           }
         })
-
-
-        // console.log(newAnswer) BAGUS
 
         this.setState({ answers: newAnswer })
       }
