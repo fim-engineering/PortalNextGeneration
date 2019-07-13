@@ -30,9 +30,59 @@ class Question extends Component {
   }
 
   componentDidMount = () => {
-    this.fetchQuestion()
+    this.fetchQuestion(this.fetchExistAnswer)
 
     this.props.dataUser.tunnelId && this.fetchList()
+  }
+
+  fetchExistAnswer = async () => {
+    const { cookieLogin, dataUser } = this.props;
+    const { answers } = this.state;
+
+    try {
+      const response = await fetch({
+        url: '/answer/lists',
+        method: 'post',
+        headers: {
+          'Authorization': `Bearer ${cookieLogin}`
+        },
+        data: {
+          tunnelId: dataUser.tunnelId,
+          ktpNumber: dataUser.Identity.ktpNumber,
+        }
+      })
+
+      
+
+      const status = (response.data.status || false)
+      const data = response.data.data || []
+
+      if (status && data.length > 0) {
+        
+        const newData = data.map(x => {
+          return {
+            questionId: x.questionId,
+            answer: JSON.parse(x.answer)
+          }
+        })
+
+        const newAnswer = answers.map(answer => {
+
+          const findingData = newData.find(data => data.questionId === answer.questionId)
+          if (findingData) {
+            return findingData
+          } else {
+            return answer
+          }
+
+        })
+
+        this.setState({ answers: newAnswer })
+      }
+
+    } catch (error) {
+      
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -99,7 +149,7 @@ class Question extends Component {
     }
   }
 
-  fetchQuestion = async () => {
+  fetchQuestion = async (cb) => {
     const { cookieLogin, dataUser } = this.props;
 
     this.toggleLoadQ()
@@ -127,7 +177,7 @@ class Question extends Component {
               answer: JSON.parse(item.header)
             }
           })
-        })
+        }, () => { cb() })
       } else {
         this.setErrorData()
       }
@@ -167,9 +217,12 @@ class Question extends Component {
   }
 
   renderQuestion = (question) => {
+    const { answers } = this.state;
 
     const headerQuestion = JSON.parse(question.header)
     const entriesQ = Object.entries(headerQuestion)
+
+    const findAnswer = answers.find(answer => answer.questionId === question.id)
 
     return <Fragment key={question.id}>
       <div>{question.question}</div>
@@ -178,6 +231,7 @@ class Question extends Component {
           return (<Fragment key={idx}>
             <div style={{ fontWeight: 'bold' }} >{q[0]}</div>
             <Input
+              value={findAnswer.answer[q[0]]}
               onChange={(e) => { this.handleChange(e, question.id, q) }}
             />
           </Fragment>)
