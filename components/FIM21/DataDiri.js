@@ -53,7 +53,7 @@ class RegistrationForm extends React.Component {
         address: Identity.address,
         phone: Identity.phone,
         religion: Identity.religion,
-        bornDate: moment(Identity.bornDate, 'YYYY-MM-DD')
+        bornDate: moment(Identity.bornDate || new Date(), 'YYYY-MM-DD')
       })
     }
 

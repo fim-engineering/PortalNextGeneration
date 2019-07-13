@@ -74,8 +74,8 @@ class ContainerFIM21 extends Component {
         this.setState({ step: -2 })
       }
 
-      // this.setState({ step: response.data.data.step, stepReal: response.data.data.step })
-      this.setState({ step: 4, stepReal: 4 })
+      this.setState({ step: response.data.data.step, stepReal: response.data.data.step })
+      // this.setState({ step: 4, stepReal: 4 })
 
     } catch (error) {
       console.log("error: ", error);
@@ -147,7 +147,7 @@ class ContainerFIM21 extends Component {
 
     if (step === -1) {
       return <Skeleton active />
-    } else if (step === 0) {
+    } else if (step === 0 || step === null) {
       return <KTP refetchStep={this.refetchData} />
     } else if (step === 1) {
       return <KTP refetchStep={this.refetchData} />
