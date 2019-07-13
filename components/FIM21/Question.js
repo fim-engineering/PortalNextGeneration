@@ -2,13 +2,26 @@ import React, { Component, Fragment } from 'react';
 import {
   Skeleton,
   Button,
-  message
+  message,
+  Input,
+  Modal,
 } from 'antd';
 import { fetch } from '@helper/fetch';
+import { object } from 'prop-types';
+import { debounce } from "debounce";
+
+const { confirm } = Modal;
 
 class Question extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.saveAnswer = debounce(this._saveAnswer, 300)
+  }
+
   state = {
+    isLoadButton: false,
     isLoadQ: false,
     dataQuestion: [],
     currentTunnel: '',
@@ -19,6 +32,10 @@ class Question extends Component {
     this.fetchQuestion()
 
     this.props.dataUser.tunnelId && this.fetchList()
+  }
+
+  componentDidUpdate = () => {
+    this.saveAnswer()
   }
 
   toggleLoadQ = () => {
@@ -78,8 +95,6 @@ class Question extends Component {
   fetchQuestion = async () => {
     const { cookieLogin, dataUser } = this.props;
 
-    console.log("dataUser: ", dataUser)
-
     this.toggleLoadQ()
 
     try {
@@ -119,21 +134,136 @@ class Question extends Component {
 
   }
 
+  handleChange = (event, id, header) => {
+    event.preventDefault()
+    const { value } = event.target;
+    const { answers } = this.state;
+
+    const newAnswer = answers.map(object => {
+      if (object.questionId === id) {
+        return {
+          ...object,
+          answer: {
+            ...object.answer,
+            [header[0]]: value
+          }
+        }
+      }
+
+      return object
+    })
+
+    this.setState({
+      answers: newAnswer
+    })
+
+  }
+
   renderQuestion = (question) => {
+
+    const headerQuestion = JSON.parse(question.header)
+    const entriesQ = Object.entries(headerQuestion)
 
     return <Fragment key={question.id}>
       <div>{question.question}</div>
+      <div>
+        {entriesQ.map((q, idx) => {
+          return (<Fragment key={idx}>
+            <div style={{ fontWeight: 'bold' }} >{q[0]}</div>
+            <Input
+              onChange={(e) => { this.handleChange(e, question.id, q) }}
+            />
+          </Fragment>)
+        })}
+        {/*<Input
+          onChange={(e) => { this.handleChange(e, question.id, headerQuestion) }}
+        />*/}
+      </div>
       <br />
     </Fragment>
   }
 
   renderContent = () => {
-    const { dataQuestion, answers, currentTunnel } = this.state;
+    const { dataQuestion, currentTunnel } = this.state;
 
     return <Fragment>
-      <h1>Jalur kamu {currentTunnel.name}</h1>
+      <span>Jalur kamu </span>
+      <h1 style={{ fontWeight: 'bold' }}>{currentTunnel.name}</h1>
       {dataQuestion.length > 0 && dataQuestion.map(this.renderQuestion)}
     </Fragment>
+  }
+
+  _saveAnswer = async () => {
+    const { cookieLogin, dataUser, refetchStep } = this.props;
+    const { answers } = this.state;
+
+    try {
+      const response = await fetch({
+        url: '/answer/save',
+        method: 'post',
+        headers: {
+          'Authorization': `Bearer ${cookieLogin}`
+        },
+        data: {
+          answers: answers,
+          tunnelId: dataUser.tunnelId,
+          ktpNumber: dataUser.Identity.ktp-Number,
+        }
+      })
+
+      const status = (response.data.status || false)
+
+      if (!status) {
+        message.error("Gagal menyimpan Data")
+      } else {
+        message.success(response.data.message)
+      }
+
+    } catch (error) {
+      message.error("Gagal menyimpan Data")
+    }
+  }
+
+  toggleLoadButton = () => {
+    this.setState(prevState => ({ isLoadButton: !prevState.isLoadButton }))
+  }
+
+  submitEvent = () => {
+    const { answers } = this.state;
+
+    console.log("answers: ", answers)
+
+    //TODO: Hit Final Submit
+
+    // try {
+      
+    // } catch (error) {
+      
+    // }
+  }
+
+  showConfirm = () => {
+    confirm({
+      title: 'Kamu Yakin akan mengirimkan data ini ?',
+      content: 'Sekali anda mensubmit, tidak akan bisa diubah!',
+      onOk: () => {
+        this.submitEvent()
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+
+  get buttonSubmitProps() {
+    const { isLoadButton } = this.state;
+
+    return {
+      loading: isLoadButton,
+      onClick: this.showConfirm,
+      type: 'primary',
+      size: 'large'
+    }
   }
 
   render() {
@@ -149,6 +279,9 @@ class Question extends Component {
 
     return (<Fragment>
       {isLoadQ ? <Skeleton active /> : this.renderContent()}
+      <Button {...this.buttonSubmitProps} >
+        Submit
+      </Button>
     </Fragment>)
   }
 }
