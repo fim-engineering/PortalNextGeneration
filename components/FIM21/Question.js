@@ -21,7 +21,7 @@ class Question extends Component {
   }
 
   state = {
-    answers: null,
+    answers: [],
     isLoadButton: false,
     isLoadQ: false,
     dataQuestion: [],
@@ -35,8 +35,14 @@ class Question extends Component {
     this.props.dataUser.tunnelId && this.fetchList()
   }
 
-  componentDidUpdate = () => {
-    this.state.answers && this.saveAnswer()
+  componentDidUpdate = (prevProps, prevState) => {
+    const { answers: prevAnswer } = prevState
+    const { answers: currentAnswer } = this.state;
+
+    if (currentAnswer.length > 0) {
+      (JSON.stringify(prevAnswer) !== JSON.stringify(currentAnswer)) && this.saveAnswer()
+    }
+
   }
 
   toggleLoadQ = () => {
