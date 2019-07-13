@@ -30,9 +30,63 @@ class Question extends Component {
   }
 
   componentDidMount = () => {
-    this.fetchQuestion()
+    this.fetchQuestion(this.fetchExistAnswer)
 
     this.props.dataUser.tunnelId && this.fetchList()
+  }
+
+  fetchExistAnswer = async () => {
+    const { cookieLogin, dataUser } = this.props;
+    const { answers } = this.state;
+
+    try {
+      const response = await fetch({
+        url: '/answer/lists',
+        method: 'post',
+        headers: {
+          'Authorization': `Bearer ${cookieLogin}`
+        },
+        data: {
+          tunnelId: dataUser.tunnelId,
+          ktpNumber: dataUser.Identity.ktpNumber,
+        }
+      })
+
+      const status = (response.data.status || false)
+      const data = response.data.data || []
+
+      if (status && data.length > 0) {
+
+        const newData = data.map(x => {
+          return {
+            questionId: x.questionId,
+            answer: JSON.parse(x.answer),
+          }
+        })
+
+        const newAnswer = answers.map(answer => {
+          const findingData = newData.find(data => data.questionId === answer.questionId)
+          if (findingData) {
+            return {
+              ...answer,
+              ...findingData
+            }
+          } else {
+            return {
+              answer
+            }
+          }
+        })
+
+
+        // console.log(newAnswer) BAGUS
+
+        this.setState({ answers: newAnswer })
+      }
+
+    } catch (error) {
+
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -99,7 +153,7 @@ class Question extends Component {
     }
   }
 
-  fetchQuestion = async () => {
+  fetchQuestion = async (cb) => {
     const { cookieLogin, dataUser } = this.props;
 
     this.toggleLoadQ()
@@ -129,7 +183,7 @@ class Question extends Component {
               formCount: 1
             }
           })
-        })
+        }, () => { cb() })
       } else {
         this.setErrorData()
       }
@@ -165,6 +219,52 @@ class Question extends Component {
     this.setState({
       answers: newAnswer
     })
+  }
+
+ 
+
+  handleArrayChange = async (event, id, header,key,index,headerQuestion) => {
+    event.preventDefault()
+    const { value } = event.target;
+    const { answers } = this.state;
+
+    // ambil object array yang sekarang
+    let currentArray = answers[key].answer;    
+    
+    // berapa index (tambah) yang terdeteksi ?
+    if(answers[key].answer[index] == undefined){
+      currentArray.push(headerQuestion)
+    }
+
+    // ubah array index yang dipilih jadi baru nilainya
+    const newObject = {
+      ...answers[key].answer[index],
+      [header[0]]:value
+    }
+
+    // Update array dengan pasang ke array target dengan membuat array baruu dengan menyelipkan newObject pada array yang dituju
+    const barugaes = [];    
+    const newArray = await currentArray.map((value,indexnya)=>{     
+     
+      // kika index sama dengan indexnya update object baru
+      if(index == indexnya){
+        currentArray[index]= newObject;
+      }    
+    })
+
+    const newAnswer = answers.map(object => {
+      if (object.questionId === id) {       
+        return {
+          ...object,
+          answer: currentArray
+        }
+      }
+      return object
+    })
+
+    this.setState({
+      answers: newAnswer
+    })
 
   }
 
@@ -192,29 +292,56 @@ class Question extends Component {
   }
 
   renderQuestion = (question, key) => {
+    const { answers } = this.state;
 
     const headerQuestion = JSON.parse(question.header)
     const entriesQ = Object.entries(headerQuestion)
 
+    const findAnswer = answers.find(answer => answer.questionId === question.id)
 
-    return <Fragment key={question.id}>
-      <div>{question.question}</div>
+    let form = null;
 
-      
-      <div style={{ background: 'yellow', margin: '20px 0px' }}>
+    if (question.isMany == 0) {
+      form = <div style={{margin: '20px 0px' }}>
         {entriesQ.map((q, idx) => {
           return (<Fragment key={idx}>
             <div style={{ fontWeight: 'bold' }} >{q[0]}</div>
             <Input
               // type={headerQuestion[q[0]]}
-              onChange={(e) => { this.handleChange(e, question.id, q) }}
+              value={findAnswer.answer[q[0]]}
+              onChange={(e) => this.handleChange(e, question.id, q)}
             />
           </Fragment>)
         })}
-        {/*<Input
-          onChange={(e) => { this.handleChange(e, question.id, headerQuestion) }}
-        />*/}
+        {/*<Input onChange={(e) => { this.handleChange(e, question.id, headerQuestion) }} />*/}
       </div>
+    } else {
+      const arrayForm = [];
+      for (let index = 0; index < this.state.answers[key].formCount; index++) {
+        arrayForm.push(
+          <div style={{ background: 'yellow', margin: '20px 0px' }}>
+            {entriesQ.map((q, idx) => {
+              return (<Fragment key={idx}>
+                <div style={{ fontWeight: 'bold' }} >{q[0]}</div>
+                <Input
+                  // type={headerQuestion[q[0]]}
+                  value={this.state.answers[key].answer[index]? this.state.answers[key].answer[index][q[0]] : 'null'}
+                  onChange={(e) => this.handleArrayChange(e, question.id, q, key, index, headerQuestion)}
+                />
+              </Fragment>)
+            })}
+            {/*<Input onChange={(e) => { this.handleChange(e, question.id, headerQuestion) }} />*/}
+          </div>
+        )
+      }
+
+      form = arrayForm.map((value,index)=>(value));
+    }
+
+    return <Fragment key={question.id}>
+      <div>{question.question}</div>
+
+      {form}
 
 
       {question.isMany ? <Button onClick={(e) => { this.addFormHandler(e, question.id, key) }}>Tambah</Button> : null}
