@@ -345,7 +345,7 @@ class RegistrationForm extends React.Component {
         <Form.Item label="Hobi">
           {getFieldDecorator("hoby", {
             rules: [
-              { required: false, message: "Tolong isi Hobi Anda!" }
+              { required: true, message: "Tolong isi Hobi Anda!" }
             ]
           })(<Input />)}
         </Form.Item>

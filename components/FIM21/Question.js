@@ -281,6 +281,7 @@ class Question extends Component {
       }
 
     } catch (error) {
+      console.log("err: ", error)
       message.error("Gagal menyimpan Data")
     }
   }
