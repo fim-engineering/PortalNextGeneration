@@ -22,7 +22,7 @@ class Thank extends Component {
           <Button type="primary" key="console">
             Kembali Ke Beranda
           </Button>,
-          <Button onClick={() => { onChangeStep(1) }} key="buy">Memilih Jalur Lain</Button>,
+          <Button onClick={() => { onChangeStep(2) }} key="buy">Memilih Jalur Lain</Button>,
         ]}
       />
     )

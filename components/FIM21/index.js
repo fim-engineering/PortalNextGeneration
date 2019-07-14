@@ -77,6 +77,7 @@ class ContainerFIM21 extends Component {
       }
 
       this.setState({ step: response.data.data.step, stepReal: response.data.data.step })
+      // this.setState({ step: 3, stepReal: 3 })
       // this.setState({ step: 4, stepReal: 4 })
       // this.setState({ step: 5, stepReal: 5 })
 
