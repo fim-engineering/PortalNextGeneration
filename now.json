@@ -6,13 +6,15 @@
     ],
     "env": {
         "GOOGLE_CLIENT_ID": "@google-client-id",
-        "URL_BACKEND": "@base-url-backend"
+        "URL_BACKEND": "@base-url-backend",
+        "SENTRY_DSN": "@sentry_dsn"
     },
     "alias": "portal.forumindonesiamuda.org",
     "build": {
         "env": {
             "GOOGLE_CLIENT_ID": "@google-client-id",
-            "URL_BACKEND": "@base-url-backend"
+            "URL_BACKEND": "@base-url-backend",
+            "SENTRY_DSN": "@sentry_dsn"
         }
     }
 }

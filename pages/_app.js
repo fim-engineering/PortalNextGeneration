@@ -3,9 +3,14 @@ import App, { Container } from 'next/app';
 import Layout from '@components/Layout';
 import withGA from "next-ga";
 import { getCookieUniversal } from '@Cookie';
+import * as Sentry from '@sentry/browser';
 import CONSTANT from '@constant';
 
 import Router from 'next/router';
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN
+});
 
 Router.events.on('routeChangeStart', url => {
   console.log(`Loading: ${url}`)
@@ -23,6 +28,18 @@ Router.events.on('routeChangeError', (err) => {
 })
 
 class MyApp extends App {
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope((scope) => {
+        Object.keys(errorInfo).forEach((key) => {
+            scope.setExtra(key, errorInfo[key]);
+        });
+
+        Sentry.captureException(error);
+    });
+
+    super.componentDidCatch(error, errorInfo);
+  }
 
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
