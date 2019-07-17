@@ -34,8 +34,18 @@ function Index(props) {
   } catch (error) {
   }
 
+  const _onClickHandler = () => {
+    window && window.ga('send', {
+      hitType: 'event',
+      eventCategory: 'Pendaftaran FIM',
+      eventAction: 'clickButton',
+      eventLabel: 'Daftar FIM'
+    })
+    Router.push('/fim21')
+  }
+
   let extraButton = [
-    <Button key={1} onClick={() => { Router.push('/fim21') }} type="primary">Daftar FIM 21</Button>
+    <Button key={1} onClick={() => { _onClickHandler() }} type="primary">Daftar FIM 21</Button>
   ]
 
   return (
