@@ -4,7 +4,7 @@ import { withRouter } from 'next/router';
 import { useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import Router from 'next/router';
-import { sendTracker } from '@@tracker';
+import { sendTracker } from '@tracker';
 import '../static/css/carousel.css';
 
 const data = [

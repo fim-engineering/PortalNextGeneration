@@ -8,7 +8,7 @@ import CONSTANT from '@constant';
 import Router from 'next/router';
 import { notification } from 'antd';
 import { logout } from '@helper/googleSession';
-import { sendTracker } from '@@tracker';
+import { sendTracker } from '@tracker';
 class Login extends React.Component {
 
   state = {
