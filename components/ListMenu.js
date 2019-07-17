@@ -10,6 +10,11 @@ export default [
     routeTitle: 'FIM 21'
   },
   {
+    routeKey: '/faq',
+    routeIcon: 'compass',
+    routeTitle: 'FAQ'
+  },
+  {
     routeKey: '/login',
     routeIcon: 'login',
     routeTitle: 'Account'
