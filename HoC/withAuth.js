@@ -51,9 +51,11 @@ export const auth = async ctx => {
       redirectForbidden()
     }
 
+    const data = response.data.data || {}
+
     return {
       token_FIM,
-      step: response.data.data.step
+      step: data.step
     }
 
   } catch (error) {

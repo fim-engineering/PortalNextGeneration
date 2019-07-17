@@ -38,7 +38,9 @@ export default function requireLogin(WrappedComponent) {
           return this.redirectNonLogin();
         }
 
-        this.setState({ step: response.data.data.step })
+        const data = response.data.data || {}
+
+        this.setState({ step: data.step })
 
       } catch (error) {
         console.log("error: ", error);

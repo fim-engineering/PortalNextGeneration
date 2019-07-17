@@ -35,7 +35,7 @@ function Index(props) {
   }
 
   const _onClickHandler = () => {
-    window && window.ga('send', {
+    window && window.ga && window.ga('send', {
       hitType: 'event',
       eventCategory: 'Pendaftaran FIM',
       eventAction: 'clickButton',

@@ -76,7 +76,9 @@ class ContainerFIM21 extends Component {
         this.setState({ step: -2 })
       }
 
-      this.setState({ step: response.data.data.step, stepReal: response.data.data.step })
+      const data = response.data.data || {}
+
+      this.setState({ step: data.step, stepReal: data.step })
 
     } catch (error) {
       console.log("error: ", error);
