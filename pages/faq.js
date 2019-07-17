@@ -28,15 +28,15 @@ const dataFaqFIM = [
   },
   {
     header: 'Jalur apa saja yang ada di non next-gen dan apa deskripsinya?',
-    body: `
-      <div><i>Campus Leader</i> adalah calon peserta FIM yang merupakan pimpinan/aktivis atau calon pemimpin kampus yang memiliki misi untuk mendapat posisi strategis di organisasi kemahasiswaan.</div>
-      <div><i>Local Leader</i> adalah calon peserta FIM yang merupakan pegiat yang fokus membangun kapasitas atau pemberdayaan masyarakat lokal di lingkungan daerah tempat tinggalnya.</div>
-      <div><i>Influencer</i> diperuntukan bagi calon peserta FIM yang mewakili spirit dan karakter generasi millennial sebagai digital influencer, tech savvy dengan jangkauan network yang luas</div>
-      <div><i>Young Expert</i> merupakan jalur yang menyasar pada anak muda yang bercita-cita/telah  menjadi expert/specialist di bidang/keilmuan tertentu.</div>
-      <div><i>Young Professional</i> merupakan calon peserta yang berasal dari profesional muda yang telah bekerja selama 1-5 tahun setelah lulus kuliah. Bagi profesional muda yang berasal dari perusahaan yang masuk dalam 500 Fortune Indonesia akan menjadi prioritas.</div>
-      <div><i>Public Servant</i> diperuntukan bagi calon peserta merupakan anak muda yang mengambil karir sebagai aparatur sipil negara.</div>
-      <div><i>Military</i> adalah jalur khusus yang diadakan untuk para calon pemimpin Indonesia di masa depan yang berasal dari militer (AD, AL, AU, dan polisi).</div>
-    `
+    body: `<ul>
+      <li><i>Campus Leader</i> adalah calon peserta FIM yang merupakan pimpinan/aktivis atau calon pemimpin kampus yang memiliki misi untuk mendapat posisi strategis di organisasi kemahasiswaan.</li>
+      <li><i>Local Leader</i> adalah calon peserta FIM yang merupakan pegiat yang fokus membangun kapasitas atau pemberdayaan masyarakat lokal di lingkungan daerah tempat tinggalnya.</li>
+      <li><i>Influencer</i> diperuntukan bagi calon peserta FIM yang mewakili spirit dan karakter generasi millennial sebagai digital influencer, tech savvy dengan jangkauan network yang luas</li>
+      <li><i>Young Expert</i> merupakan jalur yang menyasar pada anak muda yang bercita-cita/telah  menjadi expert/specialist di bidang/keilmuan tertentu.</li>
+      <li><i>Young Professional</i> merupakan calon peserta yang berasal dari profesional muda yang telah bekerja selama 1-5 tahun setelah lulus kuliah. Bagi profesional muda yang berasal dari perusahaan yang masuk dalam 500 Fortune Indonesia akan menjadi prioritas.</li>
+      <li><i>Public Servant</i> diperuntukan bagi calon peserta merupakan anak muda yang mengambil karir sebagai aparatur sipil negara.</li>
+      <li><i>Military</i> adalah jalur khusus yang diadakan untuk para calon pemimpin Indonesia di masa depan yang berasal dari militer (AD, AL, AU, dan polisi).</li>
+    </ul>`
   },
   {
     header: 'Apakah calon peserta yang berasal dari alumni FIM 20 dapat memilih jalur non next-gen?',
