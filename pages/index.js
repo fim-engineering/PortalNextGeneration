@@ -4,6 +4,7 @@ import { withRouter } from 'next/router';
 import { useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import Router from 'next/router';
+import { sendTracker } from '@@tracker';
 import '../static/css/carousel.css';
 
 const data = [
@@ -35,8 +36,7 @@ function Index(props) {
   }
 
   const _onClickHandler = () => {
-    window && window.ga && window.ga('send', {
-      hitType: 'event',
+    sendTracker({
       eventCategory: 'Pendaftaran FIM',
       eventAction: 'clickButton',
       eventLabel: 'Daftar FIM'

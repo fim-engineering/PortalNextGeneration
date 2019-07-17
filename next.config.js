@@ -49,6 +49,7 @@ module.exports = withSourceMaps(withCss({
     config.resolve.alias['@LocalStorage'] = path.join(__dirname, 'helper/LocalStorage');
     config.resolve.alias['@Cookie'] = path.join(__dirname, 'helper/Cookie');
     config.resolve.alias['@canUseDOM'] = path.join(__dirname, 'helper/canUseDOM');
+    config.resolve.alias['@tracker'] = path.join(__dirname, 'helper/tracker');
     config.resolve.alias['@constant'] = path.join(__dirname, 'constant');
 
     config.plugins.push(
