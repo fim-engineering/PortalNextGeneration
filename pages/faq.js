@@ -1,7 +1,8 @@
 
 import { Fragment } from 'react';
-import { Collapse, Divider } from 'antd';
+import { Collapse, Divider, Steps, Popover, BackTop } from 'antd';
 
+const { Step } = Steps;
 const { Panel } = Collapse;
 
 const dataFaqFIM = [
@@ -72,7 +73,7 @@ const dataFaqFIM21 = [
 
 function FaqFIM() {
   return (<Fragment>
-    <Divider orientation="left">FAQ seputar FIM</Divider>
+    <Divider orientation="left">FAQ Seputar FIM</Divider>
     <Collapse accordion>
       {
         dataFaqFIM.map((data, index) => {
@@ -87,7 +88,7 @@ function FaqFIM() {
 
 function FaqFIM21() {
   return (<Fragment>
-    <Divider orientation="left">FAQ seputar Pelatihan Fim 21</Divider>
+    <Divider orientation="left">FAQ Seputar Pelatihan Fim 21</Divider>
     <Collapse accordion>
       {
         dataFaqFIM21.map((data, index) => {
@@ -100,10 +101,26 @@ function FaqFIM21() {
   </Fragment>)
 }
 
+function StepRegis() {
+  return (<Fragment>
+    <Divider>Tahapan Pendaftaran</Divider>
+    <Steps current={0}>
+      <Step title="Pembukaan pendaftaran" description="17 Juli 2019" />
+      <Step title="Penutupan pendaftaran" description="17 Agustus 2019" />
+      <Step title="Pengumuman lolos tahap 1" description="7 September 2019" />
+      <Step title="Seleksi tahap 2 (wawancara)" description="8 - 13 September 2019" />
+      <Step title="Pengumuman lolos tahap 2" description="18 September 2019" />
+      <Step title="Masa konfirmasi" description="18 – 21 September 2019" />
+    </Steps>
+  </Fragment>)
+}
+
 function Faq() {
   return (<Fragment>
+    {StepRegis()}
     {FaqFIM()}
     {FaqFIM21()}
+    <BackTop />
   </Fragment>)
 }
 

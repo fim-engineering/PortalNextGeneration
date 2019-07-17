@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Divider, Skeleton, Empty, message, List, Card, Button } from 'antd';
+import { BackTop, Divider, Skeleton, Empty, message, List, Card, Button } from 'antd';
 import { fetch } from '@helper/fetch';
 
 function isEmptyObject(obj) {
@@ -139,12 +139,13 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
   }
 
   return (<Fragment>
-    {!isEmptyObject(tunnel) && <Divider>Pilihan mu: {tunnel.name}</Divider>}
-    <Divider>Tentukan Pilihan mu</Divider>
-    <Content tunnel={tunnel} setTunnel={setTunnel} loading={loading} tunnels={tunnels}  />
     <Button {...buttonSubmitProps()} >
       Submit
     </Button>
+    {!isEmptyObject(tunnel) && <Divider>Pilihan mu: {tunnel.name}</Divider>}
+    <Divider>Tentukan Pilihan mu</Divider>
+    <Content tunnel={tunnel} setTunnel={setTunnel} loading={loading} tunnels={tunnels}  />
+    <BackTop />
   </Fragment>)
 }
 
