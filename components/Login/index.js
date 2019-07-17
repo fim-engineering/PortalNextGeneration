@@ -8,7 +8,7 @@ import CONSTANT from '@constant';
 import Router from 'next/router';
 import { notification } from 'antd';
 import { logout } from '@helper/googleSession';
-
+import { sendTracker } from '@@tracker';
 class Login extends React.Component {
 
   state = {
@@ -53,9 +53,23 @@ class Login extends React.Component {
       this.openNotificationWithIcon('success')
       this.redirectAfterSuccess()
       this.onToggleLoader();
+
+      sendTracker({ 
+        eventCategory: 'Login',
+        eventAction: 'ResponseAPI',
+        eventLabel: 'success',
+        dimension1: JSON.stringify(response)
+      })
+
     } catch (error) {
       this.onToggleLoader();
       console.log("error: ", error)
+      sendTracker({ 
+        eventCategory: 'Login',
+        eventAction: 'ResponseAPI',
+        eventLabel: 'failed',
+        dimension1: JSON.stringify(error)
+      })
     }
   }
 
@@ -64,7 +78,19 @@ class Login extends React.Component {
     this.onToggleLoader();
     if (response.accessToken) {
       this.onSuccessLogin(response)
+      sendTracker({ 
+        eventCategory: 'Login',
+        eventAction: 'ResponseGoogle',
+        eventLabel: 'success',
+        dimension1: JSON.stringify(response)
+      })
     } else {
+      sendTracker({ 
+        eventCategory: 'Login',
+        eventAction: 'ResponseGoogle',
+        eventLabel: 'failed',
+        dimension1: JSON.stringify(response)
+      })
       this.onToggleLoader();
       console.log("GAGAL GOOGLE")
     }

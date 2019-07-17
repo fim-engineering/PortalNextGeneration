@@ -1,9 +1,12 @@
-const sendTracker = ({ eventCategory, eventAction, eventLabel }) => {
+const sendTracker = ({ eventCategory, eventAction, eventLabel, dimension1 }) => {
   window && window.ga && window.ga('send', {
     hitType: 'event',
     eventCategory,
     eventAction,
-    eventLabel'
+    eventLabel,
+    ...dimension1 && {
+      dimension1
+    }
   })
 }
 
