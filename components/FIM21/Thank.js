@@ -10,6 +10,7 @@ import {
 } from 'antd';
 import Router from 'next/router';
 import { fetch } from '@helper/fetch';
+import { sendPageview } from '@tracker';
 
 class Thank extends Component {
 
@@ -19,6 +20,8 @@ class Thank extends Component {
 
   componentDidMount = () => {
     this.fetchSummaryCheck()
+
+    sendPageview({ pathName: '/thanks' })
   }
 
   fetchSummaryCheck = async () => {

@@ -18,6 +18,7 @@ import {
 } from "antd";
 import { fetch } from '@helper/fetch';
 import moment from 'moment';
+import { sendPageview } from '@tracker';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -45,6 +46,8 @@ class RegistrationForm extends React.Component {
 
   componentDidMount = () => {
     const { form, dataUser: { Identity } } = this.props;
+
+    sendPageview({ pathName: '/datadiri' })
 
     if (Identity) {
       this.setState({ urlKtp: Identity.photoUrl })

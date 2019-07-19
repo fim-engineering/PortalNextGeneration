@@ -12,6 +12,7 @@ import {
 import { fetch } from '@helper/fetch';
 import { getCookie } from '@Cookie';
 import CONSTANT from '@constant';
+import { sendPageview } from '@tracker';
 
 const { confirm } = Modal;
 
@@ -34,6 +35,10 @@ class KTP extends Component {
     urlKtp: '',
     loading: false,
     loadingButton: false,
+  }
+
+  componentDidMount() {
+    sendPageview({ pathName: '/ktp' })
   }
 
   handleChange = info => {

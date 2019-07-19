@@ -9,6 +9,7 @@ import {
 import { fetch } from '@helper/fetch';
 import { object } from 'prop-types';
 import { debounce } from "debounce";
+import { sendPageview } from '@tracker';
 
 const { confirm } = Modal;
 
@@ -33,6 +34,8 @@ class Question extends Component {
     this.fetchQuestion(this.fetchExistAnswer)
 
     this.props.dataUser.tunnelId && this.fetchList()
+
+    sendPageview({ pathName: '/question' })
   }
 
   fetchExistAnswer = async () => {

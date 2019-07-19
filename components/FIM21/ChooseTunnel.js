@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { BackTop, Divider, Skeleton, Empty, message, List, Card, Button } from 'antd';
 import { fetch } from '@helper/fetch';
+import { sendPageview } from '@tracker';
 
 function isEmptyObject(obj) {
   return Object.keys(obj).length === 0 && obj.constructor === Object
@@ -50,6 +51,9 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
   const [tunnels, setTunnels] = useState([])
   const [tunnel, setTunnel] = useState({})
 
+  useEffect(() => {
+    sendPageview({ pathName: '/chooseTunnel' })
+  }, [])
 
   useEffect(() => {
     const fetchTunnel = async () => {
