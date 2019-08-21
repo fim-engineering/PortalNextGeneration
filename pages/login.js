@@ -5,8 +5,8 @@ class Login extends React.Component {
 
   render() {
     return <React.Fragment>
-      {/* <LoginComponent cookieLogin={this.props.cookieLogin} /> */}
-      <h1>Pendaftaran Ditutup!</h1>
+      <LoginComponent cookieLogin={this.props.cookieLogin} />
+      {/* <h1>Pendaftaran Ditutup!</h1> */}
     </React.Fragment>;
   }
 }

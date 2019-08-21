@@ -17,6 +17,7 @@
   "dependencies": {
     "@sentry/browser": "^5.5.0",
     "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
     "@zeit/next-source-maps": "0.0.3",
     "antd": "^3.19.7",
     "auth0-js": "^9.10.4",
@@ -30,6 +31,7 @@
     "next": "^8.1.0",
     "next-cookies": "^1.1.2",
     "next-ga": "^2.3.4",
+    "node-sass": "^4.12.0",
     "null-loader": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
