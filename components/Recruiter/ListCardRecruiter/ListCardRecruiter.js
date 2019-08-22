@@ -132,6 +132,46 @@ const ListCardRecruiter = (props) => {
         }
     }
 
+    const onUndoAssign = async (e, ktp, emailRecruiter, tunnelId) => {
+        e.preventDefault();
+
+        const payload = {
+            ktpNumberPeserta: ktp,
+            emailRecruiter: emailRecruiter,
+            tunnelId: tunnelId
+        }
+
+        // setIsLoading(true);
+        const { cookieLogin, refetchStep } = props;
+        try {
+            const response = await fetch({
+                url: 'recruiter/participant/undo-assign',
+                method: 'post',
+                headers: {
+                    'Authorization': `Bearer ${cookieLogin}`,
+                }, data: {
+                    ...payload
+                }
+            })
+
+            const status = (response.data.status || false)
+
+            if (!status) {
+                message.error(response.data.message)
+                // setIsLoading(false);
+            } else {
+                message.success(response.data.message)
+                fetchAllParticipantTersisa();
+                fetchAllParticipantAssign();
+                // setAllParticipantAvailable(response.data.data)
+            }
+
+        } catch (error) {
+            message.error("Server Error")
+            // setIsLoading(false);
+        }
+    }
+
     return (
         <>
             <div className="card-list-name" onClick={() => setToggle(!isToggle)}>
@@ -165,7 +205,7 @@ const ListCardRecruiter = (props) => {
                         <h2>Peserta yang ditugaskan</h2>
                         {selectedParticipant.map((value, index) => {
                             if (value.Identity !== null) {
-                                return <div className="peserta-card">
+                                return <div className="peserta-card" onClick={(e)=> onUndoAssign(e, value.ktpNumber, props.dataRecruiter.email, value.tunnelId)}>
                                     <div className="nama">{value.Identity.name}</div>
                                     <div className="noKTP">Next Gen | <b>1231312321312</b></div>
                                 </div>
