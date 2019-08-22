@@ -9,9 +9,9 @@ const path = require('path')
 const Dotenv = require('dotenv-webpack')
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
-module.exports = withSourceMaps(withSass({
+module.exports = withSourceMaps(withCss({
   target: 'serverless',
-  cssModules: true,
+  // cssModules: true,
   webpack: (config, { isServer }) => {
     if (isServer) {
       const antStyles = /antd\/.*?\/style\/css.*?/

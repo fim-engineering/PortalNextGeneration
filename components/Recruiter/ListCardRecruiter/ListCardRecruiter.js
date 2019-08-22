@@ -1,7 +1,136 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetch } from '@helper/fetch';
+import {
+    Form,
+    Input,
+    Tooltip,
+    Icon,
+    Cascader,
+    Select,
+    Row,
+    Col,
+    Checkbox,
+    Button,
+    AutoComplete,
+    message,
+    Radio,
+    DatePicker,
+    Upload,
+} from "antd";
+
 
 const ListCardRecruiter = (props) => {
-    const [isToggle, setToggle] = useState(false)
+    const [isToggle, setToggle] = useState(false);
+    const [allParticipantAvailable, setAllParticipantAvailable] = useState([]);
+    const [selectedParticipant, setSelectedParticipant] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchAllParticipantTersisa = async () => {
+        setIsLoading(true);
+        const { cookieLogin, refetchStep } = props;
+        try {
+            const response = await fetch({
+                url: 'recruiter/participant/available-to-assign',
+                method: 'post',
+                headers: {
+                    'Authorization': `Bearer ${cookieLogin}`,
+                }, data: {
+                    email: props.dataRecruiter.email
+                }
+            })
+
+            const status = (response.data.status || false)
+
+            if (!status) {
+                message.error(response.data.message)
+                setIsLoading(false);
+            } else {
+                message.success(response.data.message)
+                setAllParticipantAvailable(response.data.data)
+            }
+
+        } catch (error) {
+            message.error("Server Error")
+            setIsLoading(false);
+        }
+    }
+
+    const fetchAllParticipantAssign = async () => {
+        setIsLoading(true);
+        const { cookieLogin, refetchStep } = props;
+        try {
+            const response = await fetch({
+                url: 'recruiter/participant/to-assign',
+                method: 'post',
+                headers: {
+                    'Authorization': `Bearer ${cookieLogin}`,
+                }, data: {
+                    email: props.dataRecruiter.email
+                }
+            })
+
+            const status = (response.data.status || false)
+
+            if (!status) {
+                message.error(response.data.message)
+                setIsLoading(false);
+            } else {
+                message.success(response.data.message)
+                setSelectedParticipant(response.data.data)
+            }
+
+        } catch (error) {
+            message.error("Server Error")
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if (isToggle) {
+            fetchAllParticipantTersisa();
+            fetchAllParticipantAssign();
+        }
+    }, [isToggle])
+
+    const onTriggerAssign = async (e, ktp, emailRecruiter, tunnelId) => {
+        e.preventDefault();
+
+        const payload = {
+            ktpNumberPeserta: ktp,
+            emailRecruiter: emailRecruiter,
+            tunnelId: tunnelId
+        }
+
+        // setIsLoading(true);
+        const { cookieLogin, refetchStep } = props;
+        try {
+            const response = await fetch({
+                url: 'recruiter/assign',
+                method: 'post',
+                headers: {
+                    'Authorization': `Bearer ${cookieLogin}`,
+                }, data: {
+                    ...payload
+                }
+            })
+
+            const status = (response.data.status || false)
+
+            if (!status) {
+                message.error(response.data.message)
+                // setIsLoading(false);
+            } else {
+                message.success(response.data.message)
+                fetchAllParticipantTersisa();
+                fetchAllParticipantAssign();
+                // setAllParticipantAvailable(response.data.data)
+            }
+
+        } catch (error) {
+            message.error("Server Error")
+            // setIsLoading(false);
+        }
+    }
 
     return (
         <>
@@ -21,40 +150,28 @@ const ListCardRecruiter = (props) => {
                 <div className="list-peserta-wrapper">
                     <div className="all-peserta">
                         <h2>List Semua Peserta</h2>
-                        <div className="peserta-card">
-                            <div className="nama">Bagus Dwi Utama</div>
-                            <div className="jalur">Next Gen</div>
-                            <div className="noKTP">1231312321312</div>
-                        </div>
-                        <div className="peserta-card">
-                            <div className="nama">Bagus Dwi Utama</div>
-                            <div className="jalur">Next Gen</div>
-                            <div className="noKTP">1231312321312</div>
-                        </div>
-                        <div className="peserta-card">
-                            <div className="nama">Bagus Dwi Utama</div>
-                            <div className="jalur">Next Gen</div>
-                            <div className="noKTP">1231312321312</div>
-                        </div>
+                        {allParticipantAvailable.map((value, index) => {
+                            if (value.Identity !== null) {
+                                return <div className="peserta-card" onClick={(e) => onTriggerAssign(e, value.ktpNumber, props.dataRecruiter.email, value.tunnelId)}>
+                                    <div className="nama">{value.Identity.name}</div>
+                                    <div className="noKTP">{value.Tunnel.name} | <b>{value.ktpNumber}</b></div>
+                                </div>
+                            }
+                        }
+                        )}
                     </div>
 
                     <div className="all-peserta">
                         <h2>Peserta yang ditugaskan</h2>
-                        <div className="peserta-card">
-                            <div className="nama">Bagus Dwi Utama</div>
-                            <div className="jalur">Next Gen</div>
-                            <div className="noKTP">1231312321312</div>
-                        </div>
-                        <div className="peserta-card">
-                            <div className="nama">Bagus Dwi Utama</div>
-                            <div className="jalur">Next Gen</div>
-                            <div className="noKTP">1231312321312</div>
-                        </div>
-                        <div className="peserta-card">
-                            <div className="nama">Bagus Dwi Utama</div>
-                            <div className="jalur">Next Gen</div>
-                            <div className="noKTP">1231312321312</div>
-                        </div>
+                        {selectedParticipant.map((value, index) => {
+                            if (value.Identity !== null) {
+                                return <div className="peserta-card">
+                                    <div className="nama">{value.Identity.name}</div>
+                                    <div className="noKTP">Next Gen | <b>1231312321312</b></div>
+                                </div>
+                            }
+                        }
+                        )}
                     </div>
                 </div>
             ) : null}
@@ -63,7 +180,7 @@ const ListCardRecruiter = (props) => {
             <style jsx>{`
                     .add-list-recruiter-wrapper{                       
                         display:flex;
-                        flex-direction:row;
+                        flex-direction:row;                        
                     }                     
 
                     .card-list-name{
@@ -73,6 +190,7 @@ const ListCardRecruiter = (props) => {
                         padding: 10px;
                         border: 1px solid grey;
                         margin-bottom: 5px;
+                        cursor:pointer;
                     }                  
 
                     .list-peserta-wrapper{
@@ -96,6 +214,12 @@ const ListCardRecruiter = (props) => {
                         flex-direction:row;
                         justify-content:space-between;
                         border-bottom: 1px solid #f1f1f1;
+                        padding:3px;
+                    }
+
+                    .list-peserta-wrapper .all-peserta .peserta-card:hover{
+                        background:gainsboro;
+                        cursor:pointer;
                     }
 
                 `}</style>
