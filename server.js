@@ -14,6 +14,10 @@ app
       return app.render(req, res, '/post', { slug: req.params.slug });
     });
 
+    server.get('/detail-participant/:slug', (req, res) => {
+      return app.render(req, res, '/detail-participant', { slug: req.params.slug });
+    });
+
     server.get('*', (req, res) => {
       return handle(req, res);
     });

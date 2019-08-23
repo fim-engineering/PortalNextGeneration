@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import { Result, Icon, Button, Divider, List, Avatar, Carousel, Table, message } from 'antd';
 import { fetch } from '@helper/fetch';
+import Router from 'next/router';
+
 
 
 
@@ -22,12 +24,12 @@ const Assesment = (props) => {
     const [dataSource, setDataSource] = useState([
         {
             ktp: 'Loading Data...',
-            name: 'Loading Data...',            
+            name: 'Loading Data...',
             jalur: 'Loading Data...',
         },
         {
             ktp: 'Loading Data...',
-            name: 'Loading Data...',            
+            name: 'Loading Data...',
             jalur: 'Loading Data...',
         },
     ])
@@ -43,7 +45,7 @@ const Assesment = (props) => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-        },        
+        },
         {
             title: 'Jalur',
             dataIndex: 'jalur',
@@ -54,11 +56,16 @@ const Assesment = (props) => {
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a>View</a>
+                    <a onClick={(e) => onNilaiSekarang(e, record.ktp)}>Nilai Sekarang</a>
                 </span>
             ),
         },
     ];
+
+    const onNilaiSekarang = (e, ktpNumber) => {
+        e.preventDefault();
+        Router.push('/detail-participant/'+ktpNumber)
+    }
 
     useEffect(() => {
         fetchListPeserta();
@@ -95,9 +102,9 @@ const Assesment = (props) => {
 
                 response.data.data.map((value, index) => {
                     fetchedData.push({
-                        ktp : value.ktpNumber, 
-                        name : value.Identity.name,                        
-                        jalur : value.Tunnel.name, 
+                        ktp: value.ktpNumber,
+                        name: value.Identity.name,
+                        jalur: value.Tunnel.name,
                     })
                 })
 
@@ -120,7 +127,7 @@ const Assesment = (props) => {
             <div>
                 <h1>Halo Selamat Datang {decode.email || ''} </h1>
                 <p>Ada 100 Kandidat FIM yang harus kamu nilai untuk lolos mengikuti pelatihan FIM</p>
-                <Table dataSource={dataSource} columns={columns} />;
+                <Table dataSource={dataSource} columns={columns} />
             </div>
         </>
     )

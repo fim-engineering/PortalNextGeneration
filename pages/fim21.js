@@ -23,7 +23,7 @@ function fim21(props) {
     setLoading(false)
   }, [])
 
-  // return loading ? <Skeleton /> : <Container {...props} />
+  return loading ? <Skeleton /> : <Container {...props} />
   return loading ? <Skeleton /> : <img style={{ maxHeight: '100%', maxWidth: '100%' }} src="https://images.unsplash.com/photo-1517076731070-13c65bcb2e86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1567&q=80" />
 }
 
