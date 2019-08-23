@@ -45,7 +45,7 @@ const ListCardRecruiter = (props) => {
                 message.error(response.data.message)
                 setIsLoading(false);
             } else {
-                message.success(response.data.message)
+                // message.success(response.data.message)
                 setAllParticipantAvailable(response.data.data)
             }
 
@@ -75,7 +75,7 @@ const ListCardRecruiter = (props) => {
                 message.error(response.data.message)
                 setIsLoading(false);
             } else {
-                message.success(response.data.message)
+                // message.success(response.data.message)
                 setSelectedParticipant(response.data.data)
             }
 
@@ -120,7 +120,7 @@ const ListCardRecruiter = (props) => {
                 message.error(response.data.message)
                 // setIsLoading(false);
             } else {
-                message.success(response.data.message)
+                // message.success(response.data.message)
                 fetchAllParticipantTersisa();
                 fetchAllParticipantAssign();
                 // setAllParticipantAvailable(response.data.data)
@@ -160,7 +160,7 @@ const ListCardRecruiter = (props) => {
                 message.error(response.data.message)
                 // setIsLoading(false);
             } else {
-                message.success(response.data.message)
+                // message.success(response.data.message)
                 fetchAllParticipantTersisa();
                 fetchAllParticipantAssign();
                 // setAllParticipantAvailable(response.data.data)
@@ -182,8 +182,8 @@ const ListCardRecruiter = (props) => {
                     {props.dataRecruiter.ktpNumber !== null ? "Active" : "-"}
                 </div>
                 <div className="counting">
-                    0 / 0
-                            </div>
+                    0 / {selectedParticipant.length}
+                </div>
             </div>
 
             {isToggle ? (
@@ -202,12 +202,12 @@ const ListCardRecruiter = (props) => {
                     </div>
 
                     <div className="all-peserta">
-                        <h2>Peserta yang ditugaskan</h2>
+                        <h4>Peserta yang ditugaskan untuk dinilai kepada {props.dataRecruiter.name}</h4>
                         {selectedParticipant.map((value, index) => {
                             if (value.Identity !== null) {
-                                return <div className="peserta-card" onClick={(e)=> onUndoAssign(e, value.ktpNumber, props.dataRecruiter.email, value.tunnelId)}>
+                                return <div className="peserta-card" onClick={(e) => onUndoAssign(e, value.ktpNumber, props.dataRecruiter.email, value.tunnelId)}>
                                     <div className="nama">{value.Identity.name}</div>
-                                    <div className="noKTP">Next Gen | <b>1231312321312</b></div>
+                                    <div className="noKTP">{value.Tunnel.name}  |<b>{value.ktpNumber}</b></div>
                                 </div>
                             }
                         }

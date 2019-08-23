@@ -6,6 +6,7 @@ import Container from '@components/FIM21';
 import { Skeleton } from 'antd';
 
 function fim21(props) {
+  // console.log(props)
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState('')
   const [step, setStep] = useState(-1)

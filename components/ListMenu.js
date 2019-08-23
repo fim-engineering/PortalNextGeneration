@@ -22,6 +22,11 @@ export default [
   {
     routeKey: '/recruiter',
     routeIcon: 'login',
-    routeTitle: 'Recruiter'
+    routeTitle: 'Recruiter Assign'
+  },
+  {
+    routeKey: '/assesment',
+    routeIcon: 'login',
+    routeTitle: 'Assesment'
   }
 ]

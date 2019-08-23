@@ -1,6 +1,6 @@
 import LoginComponent from '@components/Login';
 import AddListRecruiter from '../components/Recruiter/AddListRecruiter';
-;
+import requireLogin from '@HoC/requireLogin';
 
 class Recruiter extends React.Component {
 
