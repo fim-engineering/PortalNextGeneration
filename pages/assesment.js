@@ -53,6 +53,27 @@ const Assesment = (props) => {
             key: 'jalur',
         },
         {
+            title: 'Data Diri',
+            dataIndex: 'datadiri',
+            key: 'datadiri',
+        },
+        {
+            title: 'Aktivitas',
+            dataIndex: 'aktivitas',
+            key: 'aktivitas',
+        },
+        {
+            title: 'Project',
+            dataIndex: 'project',
+            key: 'project',
+        },
+        {
+            title: 'Lainnya',
+            dataIndex: 'lainnya',
+            key: 'lainnya',
+        },
+
+        {
             title: 'Action',
             key: 'action',
             render: (text, record) => (
@@ -65,7 +86,7 @@ const Assesment = (props) => {
 
     const onNilaiSekarang = (e, ktpNumber, tunnelId) => {
         e.preventDefault();
-        Router.push('/detail-participant/'+ktpNumber+'/'+tunnelId)
+        Router.push('/detail-participant/' + ktpNumber + '/' + tunnelId)
     }
 
     useEffect(() => {
@@ -99,14 +120,18 @@ const Assesment = (props) => {
                 message.error(response.data.message)
                 // setIsLoading(false);
             } else {
-                console.log(response.data.data)
-
                 response.data.data.map((value, index) => {
                     fetchedData.push({
                         ktp: value.ktpNumber,
                         name: value.Identity.name,
                         jalur: value.Tunnel.name,
-                        tunnelId:value.tunnelId
+
+                        aktivitas: value.scoreAktivitas,
+                        datadiri: value.scoreDataDiri,                        
+                        lainnya: value.scoreOther,
+                        project: value.scoreProject,
+
+                        tunnelId: value.tunnelId
                     })
                 })
 
@@ -124,11 +149,12 @@ const Assesment = (props) => {
         }
     }
 
+
     return (
         <>
             <div>
                 <h1>Halo Selamat Datang {decode.email || ''} </h1>
-                <p>Ada 100 Kandidat FIM yang harus kamu nilai untuk lolos mengikuti pelatihan FIM</p>
+                <p>Ada {dataSource.length} Kandidat FIM yang harus kamu nilai untuk lolos mengikuti pelatihan FIM</p>
                 <Table dataSource={dataSource} columns={columns} />
             </div>
         </>
