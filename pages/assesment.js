@@ -19,6 +19,7 @@ const Assesment = (props) => {
         decode = jwtDecode(cookieLogin)
 
     } catch (error) {
+        message.error("Anda harus login terlebih dahulu")
     }
 
     const [dataSource, setDataSource] = useState([
@@ -56,15 +57,15 @@ const Assesment = (props) => {
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a onClick={(e) => onNilaiSekarang(e, record.ktp)}>Nilai Sekarang</a>
+                    <a onClick={(e) => onNilaiSekarang(e, record.ktp, record.tunnelId)}>Nilai Sekarang</a>
                 </span>
             ),
         },
     ];
 
-    const onNilaiSekarang = (e, ktpNumber) => {
+    const onNilaiSekarang = (e, ktpNumber, tunnelId) => {
         e.preventDefault();
-        Router.push('/detail-participant/'+ktpNumber)
+        Router.push('/detail-participant/'+ktpNumber+'/'+tunnelId)
     }
 
     useEffect(() => {
@@ -105,6 +106,7 @@ const Assesment = (props) => {
                         ktp: value.ktpNumber,
                         name: value.Identity.name,
                         jalur: value.Tunnel.name,
+                        tunnelId:value.tunnelId
                     })
                 })
 
@@ -117,7 +119,7 @@ const Assesment = (props) => {
             }
 
         } catch (error) {
-            message.error("Server Error")
+            message.error("Something Error")
             // setIsLoading(false);
         }
     }

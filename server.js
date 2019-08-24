@@ -14,8 +14,8 @@ app
       return app.render(req, res, '/post', { slug: req.params.slug });
     });
 
-    server.get('/detail-participant/:slug', (req, res) => {
-      return app.render(req, res, '/detail-participant', { slug: req.params.slug });
+    server.get('/detail-participant/:slug/:tunnel', (req, res) => {
+      return app.render(req, res, '/detail-participant', { slug: req.params.slug, tunnel: req.params.tunnel  });
     });
 
     server.get('*', (req, res) => {
