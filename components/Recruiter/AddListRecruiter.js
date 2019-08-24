@@ -86,7 +86,7 @@ class AddListRecruiter extends Component {
                 this.setState({ isLoading: false })
             } else {
                 message.success(response.data.message)
-
+                this.fetchRecruiter();
             }
 
         } catch (error) {

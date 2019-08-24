@@ -109,7 +109,7 @@ class PenilaianCard extends React.Component {
 
                 .penilaian-wrapper{
                     position:fixed;
-                    background:#efefef;
+                    background:#b7b7b7;
                     width:100vw;
                     bottom:0;
                     left:0;
