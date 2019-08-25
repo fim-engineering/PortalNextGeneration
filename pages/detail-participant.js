@@ -20,7 +20,7 @@ class DetailParticipant extends React.Component {
     fetchDetailData = async () => {
         const payload = {
             ktpNumber: this.props.router.query.slug,
-            tunnelId: this.props.router.query.tunnel
+            TunnelId: this.props.router.query.tunnel
         }
 
         // setIsLoading(true);
@@ -118,7 +118,7 @@ class DetailParticipant extends React.Component {
 
 
                     {this.state.Summaries ? (
-                        <PenilaianCard scoreUpdated={this.state.Summaries ? this.state.Summaries[0] : undefined} tunnelId={query.tunnel} ktpNumber={query.slug} />
+                        <PenilaianCard scoreUpdated={this.state.Summaries ? this.state.Summaries[0] : undefined} TunnelId={query.tunnel} ktpNumber={query.slug} />
                     ) : null}
 
                 </div>

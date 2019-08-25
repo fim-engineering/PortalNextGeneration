@@ -78,8 +78,8 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
           setTunnels(responseData)
           setLoading(false)
 
-          if (dataUser.tunnelId) {
-            const findData = responseData.find(item => item.id === dataUser.tunnelId)
+          if (dataUser.TunnelId) {
+            const findData = responseData.find(item => item.id === dataUser.TunnelId)
             findData && setTunnel(findData)
           }
 
@@ -109,7 +109,7 @@ function ChooseTunnel({ refetchStep, cookieLogin, dataUser }) {
             'Authorization': `Bearer ${cookieLogin}`
           },
           data: {
-            tunnelId: tunnel.id
+            TunnelId: tunnel.id
           }
         })
   

@@ -14,7 +14,7 @@ class PenilaianCard extends React.Component {
             scoreProject: this.props.scoreUpdated ? this.props.scoreUpdated.scoreProject : "" ,
             scoreOther: this.props.scoreUpdated ? this.props.scoreUpdated.scoreOther : "" ,
             notes: this.props.scoreUpdated ? this.props.scoreUpdated.notes : "" ,
-            tunnelId: this.props.tunnelId,
+            TunnelId: this.props.TunnelId,
             ktpNumber: this.props.ktpNumber,
         }
     }

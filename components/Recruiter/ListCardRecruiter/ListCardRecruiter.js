@@ -92,13 +92,13 @@ const ListCardRecruiter = (props) => {
         }
     }, [isToggle])
 
-    const onTriggerAssign = async (e, ktp, emailRecruiter, tunnelId) => {
+    const onTriggerAssign = async (e, ktp, emailRecruiter, TunnelId) => {
         e.preventDefault();
 
         const payload = {
             ktpNumberPeserta: ktp,
             emailRecruiter: emailRecruiter,
-            tunnelId: tunnelId
+            TunnelId: TunnelId
         }
 
         // setIsLoading(true);
@@ -132,13 +132,13 @@ const ListCardRecruiter = (props) => {
         }
     }
 
-    const onUndoAssign = async (e, ktp, emailRecruiter, tunnelId) => {
+    const onUndoAssign = async (e, ktp, emailRecruiter, TunnelId) => {
         e.preventDefault();
 
         const payload = {
             ktpNumberPeserta: ktp,
             emailRecruiter: emailRecruiter,
-            tunnelId: tunnelId
+            TunnelId: TunnelId
         }
 
         // setIsLoading(true);
@@ -192,7 +192,7 @@ const ListCardRecruiter = (props) => {
                         <h2>List Semua Peserta</h2>
                         {allParticipantAvailable.map((value, index) => {
                             if (value.Identity !== null) {
-                                return <div className="peserta-card" onClick={(e) => onTriggerAssign(e, value.ktpNumber, props.dataRecruiter.email, value.tunnelId)}>
+                                return <div className="peserta-card" onClick={(e) => onTriggerAssign(e, value.ktpNumber, props.dataRecruiter.email, value.TunnelId)}>
                                     <div className="nama">{value.Identity.name}</div>
                                     <div className="noKTP">{value.Tunnel.name} | <b>{value.ktpNumber}</b></div>
                                 </div>
@@ -205,7 +205,7 @@ const ListCardRecruiter = (props) => {
                         <h4>Peserta yang ditugaskan untuk dinilai kepada {props.dataRecruiter.name}</h4>
                         {selectedParticipant.map((value, index) => {
                             if (value.Identity !== null) {
-                                return <div className="peserta-card" onClick={(e) => onUndoAssign(e, value.ktpNumber, props.dataRecruiter.email, value.tunnelId)}>
+                                return <div className="peserta-card" onClick={(e) => onUndoAssign(e, value.ktpNumber, props.dataRecruiter.email, value.TunnelId)}>
                                     <div className="nama">{value.Identity.name}</div>
                                     <div className="noKTP">{value.Tunnel.name}  |<b>{value.ktpNumber}</b></div>
                                 </div>

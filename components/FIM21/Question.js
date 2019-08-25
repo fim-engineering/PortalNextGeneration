@@ -33,7 +33,7 @@ class Question extends Component {
   componentDidMount = () => {
     this.fetchQuestion(this.fetchExistAnswer)
 
-    this.props.dataUser.tunnelId && this.fetchList()
+    this.props.dataUser.TunnelId && this.fetchList()
 
     sendPageview({ pathName: '/question' })
   }
@@ -50,7 +50,7 @@ class Question extends Component {
           'Authorization': `Bearer ${cookieLogin}`
         },
         data: {
-          tunnelId: dataUser.tunnelId,
+          TunnelId: dataUser.TunnelId,
           ktpNumber: dataUser.Identity.ktpNumber,
         }
       })
@@ -136,8 +136,8 @@ class Question extends Component {
       } else {
         const responseData = response.data.data || []
 
-        if (dataUser.tunnelId) {
-          const findData = responseData.find(item => item.id === dataUser.tunnelId)
+        if (dataUser.TunnelId) {
+          const findData = responseData.find(item => item.id === dataUser.TunnelId)
           findData && this.setCurrentTunnel(findData)
         }
 
@@ -165,7 +165,7 @@ class Question extends Component {
           'Authorization': `Bearer ${cookieLogin}`
         },
         data: {
-          "tunnelId": dataUser.tunnelId || 1
+          "TunnelId": dataUser.TunnelId || 1
         }
       })
 
@@ -272,7 +272,7 @@ class Question extends Component {
         },
         data: {
           answers: answers,
-          tunnelId: dataUser.tunnelId,
+          TunnelId: dataUser.TunnelId,
           ktpNumber: dataUser.Identity.ktpNumber,
         }
       })
@@ -307,7 +307,7 @@ class Question extends Component {
           'Authorization': `Bearer ${cookieLogin}`
         },
         data: {
-          tunnelId: dataUser.tunnelId,
+          TunnelId: dataUser.TunnelId,
           ktpNumber: dataUser.Identity.ktpNumber,
         }
       })
@@ -363,7 +363,7 @@ class Question extends Component {
     const { isLoadQ } = this.state;
     const { dataUser, refetchStep } = this.props;
 
-    if (!dataUser.tunnelId) {
+    if (!dataUser.TunnelId) {
       return <Fragment>
         <div>Anda Belum Milih Jalur</div>
         <div><Button onClick={() => { refetchStep() }} type="primary">Refresh</Button></div>
