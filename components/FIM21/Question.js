@@ -64,14 +64,14 @@ class Question extends Component {
         
         const newData = data.map(x => {
           return {
-            questionId: x.questionId,
+            QuestionId: x.QuestionId,
             answer: JSON.parse(x.answer)
           }
         })
 
         const newAnswer = answers.map(answer => {
 
-          const findingData = newData.find(data => data.questionId === answer.questionId)
+          const findingData = newData.find(data => data.QuestionId === answer.QuestionId)
           if (findingData) {
             return findingData
           } else {
@@ -176,7 +176,7 @@ class Question extends Component {
           dataQuestion: response.data.data,
           answers: response.data.data.map(item => {
             return {
-              questionId: item.id,
+              QuestionId: item.id,
               answer: JSON.parse(item.header)
             }
           })
@@ -200,7 +200,7 @@ class Question extends Component {
     const { answers } = this.state;
 
     const newAnswer = answers.map(object => {
-      if (object.questionId === id) {
+      if (object.QuestionId === id) {
         return {
           ...object,
           answer: {
@@ -225,7 +225,7 @@ class Question extends Component {
     const headerQuestion = JSON.parse(question.header)
     const entriesQ = Object.entries(headerQuestion)
 
-    const findAnswer = answers.find(answer => answer.questionId === question.id)
+    const findAnswer = answers.find(answer => answer.QuestionId === question.id)
 
     return <Fragment key={question.id}>
       <h1 style={{ fontWeight: 'bold' }}>{question.headline}</h1>
