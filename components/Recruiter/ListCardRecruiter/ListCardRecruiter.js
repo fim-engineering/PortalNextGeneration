@@ -92,7 +92,9 @@ const ListCardRecruiter = (props) => {
         }
     }, [isToggle])
 
+
     const onTriggerAssign = async (e, ktp, emailRecruiter, TunnelId) => {
+
         e.preventDefault();
 
         const payload = {
@@ -132,7 +134,9 @@ const ListCardRecruiter = (props) => {
         }
     }
 
+
     const onUndoAssign = async (e, ktp, emailRecruiter, TunnelId) => {
+
         e.preventDefault();
 
         const payload = {

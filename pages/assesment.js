@@ -125,12 +125,10 @@ const Assesment = (props) => {
                         ktp: value.ktpNumber,
                         name: value.Identity.name,
                         jalur: value.Tunnel.name,
-
                         aktivitas: value.scoreAktivitas,
                         datadiri: value.scoreDataDiri,                        
                         lainnya: value.scoreOther,
                         project: value.scoreProject,
-
                         TunnelId: value.TunnelId
                     })
                 })
@@ -144,6 +142,7 @@ const Assesment = (props) => {
             }
 
         } catch (error) {
+            console.log("Error: ", error)
             message.error("Something Error")
             // setIsLoading(false);
         }

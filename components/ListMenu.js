@@ -19,14 +19,15 @@ export default [
     routeIcon: 'login',
     routeTitle: 'Account'
   },
-  {
-    routeKey: '/recruiter',
-    routeIcon: 'login',
-    routeTitle: 'Recruiter Assign'
-  },
-  {
-    routeKey: '/assesment',
-    routeIcon: 'login',
-    routeTitle: 'Assesment'
-  }
+
+  // {
+  //   routeKey: '/recruiter',
+  //   routeIcon: 'login',
+  //   routeTitle: 'Recruiter Assign'
+  // },
+  // {
+  //   routeKey: '/assesment',
+  //   routeIcon: 'login',
+  //   routeTitle: 'Assesment'
+  // }
 ]
