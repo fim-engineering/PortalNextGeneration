@@ -33,7 +33,7 @@
     "next-cookies": "^1.1.2",
     "next-ga": "^2.3.4",
     "node-sass": "^4.12.0",
-    "null-loader": "^3.0.0",
+    "null-loader": "^4.0.0",
     "query-string": "^6.8.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
